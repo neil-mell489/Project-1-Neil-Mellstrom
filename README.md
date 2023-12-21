@@ -15,18 +15,19 @@ This is the first of a two-part lab that builds a menu bar with a slide-down sub
 
 ## Setup
 
-1. Create a new HTML/CSS/JS Repl and name it "DOM Lab".
+1. Create `index.html`, `script.js`, and `style.css` files in a folder named "DOM Lab".
 
 2. Update the `<body>` element in the **index.html** to this:
 
 	```html
+	    <link rel="stylesheet" href="style.css">
+	    <script src="script.js" defer></script>
+	</head>
 	<body>
-	  <header>
-	    <nav id="top-menu"></nav>
-	  </header>
-	  <main></main>
-	
-	  <script src="script.js"></script>
+	   <header>
+		<nav id="top-menu"></nav>
+	   </header>
+	   <main></main>
 	</body>
 	```
 
@@ -179,7 +180,7 @@ It also provides additional practice styling DOM elements dynamically using Java
 
 ## Setup
 
-1. Continue to use the "DOM Lab" HTML/CSS/JS you created in Part 1.  This is what you should have thus far:
+1. Continue to use the files you made in Part 1.  This is what you should have thus far:
 
 <img src="https://i.imgur.com/pWu6yHO.png">
 
