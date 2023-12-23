@@ -161,12 +161,6 @@ Iterate over the entire `menuLinks` array and for each "link" object:
 
 <img src="https://i.imgur.com/pWu6yHO.png">
 
-## Solution
-
-Don't peek!
-
-[Solution](https://repl.it/@jim_clark/DOM-Menu-Lab-Part-1)
-
 # DOM "Menu" Lab - Part 2
 
 ## Intro
@@ -403,9 +397,4 @@ Next, `subMenuEl`'s event listener should update the contents of `mainEl` to the
 
 <img src="https://i.imgur.com/6SFmHl0.png">
 
-## Solution
-
-Don't peek!
-
-[Solution](https://repl.it/@jim_clark/DOM-Menu-Lab-Part-2)
 
