@@ -8,6 +8,10 @@
     <title>FATHOM</title>
 </head>
 <body>
+    <img src="https://i.imgur.com/Va5iIw5.jpg" alt="Placeholder Image">
+
+    <p class="movableIcons" id="playerIcon">Alexei</p>
+    <p class="movableIcons" id="monsterIcon">Creature</p>
 
     <!-- Header Section -->
     <div class="header">
@@ -16,34 +20,46 @@
         <p class="subtitle">Maelstrom Games</p>
     </div>
 
-    <!-- Squares Grid Section -->
+    <!-- TASK LIST SECTION -->
+    <div class="task-list-box" id="task-list-next">
+        Next Task: Complete Assignment 1
+    </div>
+    <div class="task-list-box" id="task-list-current">
+        Current Task: Review Project Guidelines
+    </div>
+    <div class="task-list-box" id="task-list-previous">
+        Previous Task: Submit Homework 3
+    </div>
+
+    <!-- Tiles Grid Section -->
     <div class="container">
         <div class="row">
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
+            <!-- Adding an image to the first tile -->
+            <div class="tile position1" id="tile1"></div>
+            <div class="tile position2" id="tile2"></div>
+            <div class="tile position3" id="tile3"></div>
+            <div class="tile position4" id="tile4"></div>
+            <div class="tile position5" id="tile5"></div>
+            <div class="tile position6" id="tile6"></div>
+            <div class="tile position7" id="tile7"></div>
         </div>
         <div class="row">
-            <div class="square"></div>
-            <div class="square special"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square special"></div>
-            <div class="square"></div>
-            <div class="square special"></div>
+            <div class="tile position8" id="tile8"></div>
+            <div class="tile special" id="deadspace1"></div>
+            <div class="tile position9" id="tile9"></div>
+            <div class="tile special" id="deadspace2"></div>
+            <div class="tile position10" id="tile10"></div>
+            <div class="tile special" id="deadspace3"></div>
+            <div class="tile position11" id="tile11"></div>
         </div>
         <div class="row">
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
+            <div class="tile position12" id="tile12"></div>
+            <div class="tile position13" id="tile13"></div>
+            <div class="tile position14" id="tile14"></div>
+            <div class="tile position15" id="tile15"></div>
+            <div class="tile position16" id="tile16"></div>
+            <div class="tile position17" id="tile17"></div>
+            <div class="tile position18" id="tile18"></div>
         </div>
     </div>
 
@@ -54,11 +70,11 @@
             <div class="info-box">
                 <p>Player Health:</p>
                 <div class="health-box">
-                    <span class="health-dot"></span>
-                    <span class="health-dot"></span>
-                    <span class="health-dot"></span>
-                    <span class="health-dot"></span>
-                    <span class="health-dot"></span>
+                    <span class="health-square player-health-square"></span>
+                    <span class="health-square player-health-square"></span>
+                    <span class="health-square player-health-square"></span>
+                    <span class="health-square player-health-square"></span>
+                    <span class="health-square player-health-square"></span>
                 </div>
             </div>
 
@@ -76,11 +92,11 @@
             <div class="info-box">
                 <p>Creature Health:</p>
                 <div class="health-box">
-                    <span class="health-dot"></span>
-                    <span class="health-dot"></span>
-                    <span class="health-dot"></span>
-                    <span class="health-dot"></span>
-                    <span class="health-dot"></span>
+                    <span class="health-square monster-health-square"></span>
+                    <span class="health-square monster-health-square"></span>
+                    <span class="health-square monster-health-square"></span>
+                    <span class="health-square monster-health-square"></span>
+                    <span class="health-square monster-health-square"></span>
                 </div>
             </div>
 
@@ -100,14 +116,20 @@
     <!-- Footer Section -->
     <div class="footer">
         <!-- Rules Dropdown Section -->
-        <div class="dropdown">
+        <div class="dropdown rightbottombtn">
             <button class="dropbtn">RULES</button>
             <div class="dropdown-content">
                 <!-- Add your rules content here -->
             </div>
         </div>
+
+        <!-- Reset Button Section -->
+        <div class="reset-btn">
+            <button class="resetbtn">RESET</button>
+        </div>
+
         <!-- Classified Info Dropdown Section -->
-        <div class="dropdown">
+        <div class="dropdown leftbottombtn">
             <button class="dropbtn">CLASSIFIED INFO</button>
             <div class="dropdown-content">
                 <!-- Add your classified info content here -->
