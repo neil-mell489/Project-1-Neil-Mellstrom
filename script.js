@@ -1,5 +1,10 @@
 // RESET BUTTON AND GAME SETUP
 function resetGame() {
+
+    // Reset Task Display
+    
+    resetTaskList()
+
     // Variables to store random positions for the player and monster
     let randomPlayerPosition = null;
     let randomMonsterPosition = null;
@@ -64,9 +69,12 @@ function resetGame() {
     // Call the updateHealthDisplay function to initialize the health display
     updateHealthDisplay();
 
-    // Other parts of code...
-
     // CONTINUE RESET FUNCTION RIGHT HERE
+
+
+
+
+
 }
 
 // Event listener for the reset button
@@ -97,7 +105,7 @@ let taskList = [
     "Escape via Torpedo Tubes."
 ]
 
-function updateTaskList() {
+function resetTaskList() {
     let nextTask = document.getElementById("task-list-next");
     nextTask.textContent = "Next Task:\n" + taskList[1];
 
@@ -109,7 +117,13 @@ function updateTaskList() {
 }
 
 
-updateTaskList();
+
+
+
+
+
+
+
 
 
 
@@ -117,7 +131,7 @@ updateTaskList();
 
 const roomsArray = [
     [1, 'Crew Quarters 1'],
-    [2, 'Torpedo Tubes'],
+    [2, 'Torpedo Bay'],
     [3, 'Crew Quarters 2'],
     [4, 'H1'],
     [5, 'H4'],
@@ -137,4 +151,3 @@ const roomsArray = [
 ];
 
 
-// HEYO COMMITS FINALLY WORKING

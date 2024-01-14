@@ -48,8 +48,17 @@ body {
     height: 120px;
     border: 1.5px solid #00e46b;
     margin: 0px;
-    background-color: #5d5d5d;
+    background-color: #343434;
+    text-align: center;
 }
+
+/* TILE TEXT STYLING */
+.tileText {
+    display: inline-block;
+    transform: translate(0px, 10px);
+    
+}
+
 
 /* THE TASK LIST */
 
