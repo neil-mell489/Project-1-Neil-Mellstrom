@@ -33,28 +33,56 @@
 
 // ----------------------------------------------------------
 
-    // RANDOM PLAYER COORDINATES FOR INITIAL SPAWN
-    // RANDOMLY GENERATE OUR X1, X2 and our Y1, Y2 values while making sure they are not the same coordinates.
+// RANDOM PLAYER COORDINATES FOR INITIAL SPAWN
+// Function to generate two random numbers
+function generateX1Y1() {
+    // Generate the first random number in the range [1, 3]
+    const randomX1 = Math.floor(Math.random() * 3) + 1;
 
-        // Function to generate two random numbers
-        function generateTwoRandomNumbers() {
-            // Generate the first random number in the range [1, 3]
-            const randomX1 = Math.floor(Math.random() * 3) + 1;
-        
-            let randomX2;
-        
-            // Generate the second random number in the range [1, 7], excluding certain values if the first number is 2
-            if (randomX1 === 2) {
-                do {
-                    randomX2 = Math.floor(Math.random() * 7) + 1;
-                } while (randomX2 % 2 === 0);
-            } else {
-                randomX2 = Math.floor(Math.random() * 7) + 1;
-            }
-        
-            return [randomX1, randomX2];
+    let randomY1;
+
+    // Generate the second random number in the range [1, 7], excluding certain values if the first number is 2
+    if (randomX1 === 2) {
+        do {
+            randomY1 = Math.floor(Math.random() * 7) + 1;
+        } while (randomY1 % 2 === 0);
+    } else {
+        randomY1 = Math.floor(Math.random() * 7) + 1;
+    }
+
+    // Return an array with the generated values
+    return [randomX1, randomY1];
+}
+
+// Function to display Alexei in a square
+function spawnAlexei() {
+    // Retrieve and define coordinates using the generateX1Y1 function
+    let [x1, y1] = generateX1Y1();
+
+    // Remove existing Alexei from any tile
+    const existingAlexei = document.querySelector('.tileOccupant');
+    if (existingAlexei) {
+        existingAlexei.textContent = '';
+    }
+
+    // Find the target tile with appropriate x1 and y1
+    const targetTile1 = document.querySelector(`.tile.tile_${x1}_${y1}`);
+
+    if (targetTile1) {
+        // Update the text in the target tile
+        const tileOccupant = targetTile1.querySelector('.tileOccupant');
+        if (tileOccupant) {
+            tileOccupant.textContent = 'Alexei';
         }
+    }
 
+    console.log(`Alexei spawned at coordinates: (${x1}, ${y1})`);
+}
+
+// Call the spawnAlexei function to execute the code
+document.addEventListener('DOMContentLoaded', function () {
+    spawnAlexei();
+});
 
 
 
