@@ -91,18 +91,13 @@ resetButton.addEventListener('click', function() {
 // TASK LIST ARRAY AND UPDATER
 
 let taskList = [
-    "Acquire scientist's notes from Lab.", 
-    "Acquire fire extinguisher from Storage.",
-
-    // TASKS TO ADD WHEN THEIR FUNCTIONALITY WORKS
-    // weaken the monster so its at 1 HP
-    // then use the fire extinguisher on it
-
-    "Acquire Captain's notes in his Quarters.",
-    "Restart Engines.",
-    "Pilot vessel from Control room to surface",
-    "Set Reactor to self destruct.",
-    "Escape via Torpedo Tubes."
+    "1 ~ Acquire scientist's notes from Lab.", 
+    "2 ~ Acquire fire extinguisher from Storage.",
+    "3 ~ Acquire Captain's notes in his Quarters.",
+    "4 ~ Restart Engines.",
+    "5 ~ Pilot vessel from Control room to surface",
+    "6 ~ Set Reactor to self destruct.",
+    "7 ~ Escape via Torpedo Tubes."
 ]
 
 function resetTaskList() {
@@ -112,11 +107,38 @@ function resetTaskList() {
     let currentTask = document.getElementById("task-list-current");
     currentTask.textContent = "Current Task:\n" + taskList[0];
 
-    let previousTask = document.getElementById("task-list-previous");
-    previousTask.textContent = "Previous Task:\n" + "";
+    // let previousTask = document.getElementById("task-list-previous");
+    // previousTask.textContent = "Previous Task:\n" + "";
 }
 
 
+// UPDATING TASK LIST - PSUEDO
+
+    //  we need a function that'll fire off 
+
+    let currentTaskDisplay = 0; // Set the current task display index
+
+    // when currentTaskDisplay equals 0, that's your starting display. 1 is next. then 2,3,4,etc
+
+    function updateTaskList(currentTaskDisplay) {
+        // Validate the input index
+        if (currentTaskDisplay >= 0 && currentTaskDisplay < taskList.length) {
+            // Update the task list based on the input index
+            let nextTaskIndex = (currentTaskDisplay + 1) % taskList.length;
+            let currentTaskIndex = currentTaskDisplay % taskList.length;
+    
+            let nextTask = document.getElementById("task-list-next");
+            nextTask.textContent = "Next Task:\n" + taskList[nextTaskIndex];
+    
+            let currentTask = document.getElementById("task-list-current");
+            currentTask.textContent = "Current Task:\n" + taskList[currentTaskIndex];
+        } else {
+            console.error("Invalid currentTaskDisplay value.");
+        }
+    }
+    
+    // Example usage
+    updateTaskList(currentTaskDisplay)
 
 
 
@@ -127,7 +149,8 @@ function resetTaskList() {
 
 
 
-// ROOMS LIST
+
+// ROOMS LIST (currently does nothing whoops)
 
 const roomsArray = [
     [1, 'Crew Quarters 1'],
@@ -149,5 +172,17 @@ const roomsArray = [
     [17, 'Engines'],
     [18, 'Storage']
 ];
+
+
+// VICTORY AND DEFEAT SCREEN
+
+displayVictoryScreen() {
+    alert("(Victory) Lieutenant Helmsman Alexei Yarovoy recovered from the Barents Sea among wreckage of the Zarya Tupolevsky X-1. No evidence of animal reported by Helmsman.")
+}
+
+displayDefeatScreen() {
+    alert("(Defeat) Undamaged vessel of Zarya Tupolevsky X-1 recovered in Barents Sea. No survivors recovered. Cause unknown.")
+}
+
 
 
