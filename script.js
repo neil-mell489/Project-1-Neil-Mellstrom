@@ -86,6 +86,31 @@ resetButton.addEventListener('click', function() {
 });
 
 
+// PLAYER ICON MOVEMENT
+
+let playerPosition = randomNumber1
+
+if(randomNumber1 = 1)
+    // CODE THAT EDITS HTML SO THE PLAYER IS IN THAT CORRESPONDING SQUARE
+
+
+
+let arrowRightButton = document.querySelector('.arrowRight');
+
+arrowRightButton.addEventListener('click', function () {
+    moveRight();
+});
+
+
+
+function moveRight() {
+ if(playerPosition = 1) {}
+}
+
+
+// MONSTER MOVEMENT
+
+
 
 
 // TASK LIST ARRAY AND UPDATER
@@ -97,7 +122,7 @@ let taskList = [
     "4 ~ Restart Engines.",
     "5 ~ Pilot vessel from Control room to surface",
     "6 ~ Set Reactor to self destruct.",
-    "7 ~ Escape via Torpedo Tubes."
+    "7 ~ Escape via Torpedo Bay."
 ]
 
 function resetTaskList() {
@@ -112,10 +137,9 @@ function resetTaskList() {
 }
 
 
-// UPDATING TASK LIST - PSUEDO
+// UPDATING TASK LIST DISPLAY
 
-    //  we need a function that'll fire off 
-
+    // THIS INE BELOW IS WHAT MAKES THE TASK LIST DISPLAY UPDPATE. CHANGE THE NUMBER, UPDATE TASK LIST DISPLAY. EASY!
     let currentTaskDisplay = 0; // Set the current task display index
 
     // when currentTaskDisplay equals 0, that's your starting display. 1 is next. then 2,3,4,etc
@@ -137,7 +161,6 @@ function resetTaskList() {
         }
     }
     
-    // Example usage
     updateTaskList(currentTaskDisplay)
 
 
@@ -176,13 +199,11 @@ const roomsArray = [
 
 // VICTORY AND DEFEAT SCREEN
 
-displayVictoryScreen() {
-    alert("(Victory) Lieutenant Helmsman Alexei Yarovoy recovered from the Barents Sea among wreckage of the Zarya Tupolevsky X-1. No evidence of animal reported by Helmsman.")
+function displayVictoryScreen() {
+    alert("(Victory) Lieutenant Helmsman Alexei Yarovoy recovered from the Barents Sea among wreckage of the Zarya Tupolevsky X-1. No evidence of animal reported by Helmsman.");
 }
 
-displayDefeatScreen() {
-    alert("(Defeat) Undamaged vessel of Zarya Tupolevsky X-1 recovered in Barents Sea. No survivors recovered. Cause unknown.")
+function displayDefeatScreen() {
+    alert("(Defeat) Undamaged vessel of Zarya Tupolevsky X-1 recovered in Barents Sea. No survivors recovered. Cause unknown.");
 }
-
-
 
