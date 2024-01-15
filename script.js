@@ -56,61 +56,95 @@ function spawnAlexei() {
     let [x1, y1] = generateX1Y1();
 
     // Remove existing Alexei from any tile
-    const existingAlexei = document.querySelector('.tileOccupant');
+    const existingAlexei = document.querySelector('.tileOccupant.alexei');
     if (existingAlexei) {
         existingAlexei.textContent = '';
     }
 
     // Find the target tile with appropriate x1 and y1
-    const targetTile1 = document.querySelector(`.tile.tile_${y1}_${x1}`);
+    const targetTile1 = document.querySelector(`.tile.tile_${x1}_${y1}`);
 
     if (targetTile1) {
         // Update the text in the target tile
         let tileOccupant = targetTile1.querySelector('.tileOccupant');
         if (tileOccupant) {
             tileOccupant.textContent = 'Alexei';
+            tileOccupant.classList.add('alexei'); // Add a class to identify Alexei
         }
     }
 
     console.log(`Alexei FIRST spawned at coordinates: (${x1}, ${y1})`);
 
 
+    let tileOccupant = targetTile1.querySelector('.tileOccupant');
 
+    if (!tileOccupant) {
+        tileOccupant = document.createElement('span');
+        tileOccupant.classList.add('tileOccupant');
+        targetTile1.appendChild(tileOccupant);
+    }
+    tileOccupant.textContent = 'Alexei';
+    
+    // Log visibility
+    console.log('Is Alexei visible?', tileOccupant.offsetWidth > 0);
 
-
-
-
+    // Return the coordinates for later use
+    return { x: x1, y: y1 };
 }
 
-// Function to display Creature in a square
+
+// SPAWN CREATURE IN TILE
 function spawnCreature() {
     // Retrieve and define coordinates using the generateX1Y1 function
     let [x2, y2] = generateX1Y1();
 
-    // Remove existing Creature from any tile
-    const existingCreature = document.querySelector('.tileOccupant.creature');
+    // Check if Alexei is present in the target tile
+    const existingAlexei = document.querySelector(`.tile.tile_${x2}_${y2} .tileOccupant.alexei`);
+    if (existingAlexei) {
+        // If Alexei is present, rerun the spawnCreature function
+        return spawnCreature();
+    }
+
+    // Check if Creature is present in the target tile
+    const existingCreature = document.querySelector(`.tile.tile_${x2}_${y2} .tileOccupant.creature`);
     if (existingCreature) {
-        existingCreature.textContent = '';
+        // If Creature is present, rerun the spawnCreature function
+        return spawnCreature();
+    }
+
+    // Remove existing Creature from any tile
+    const existingCreatureTile = document.querySelector(`.tile.tile_${x2}_${y2} .tileOccupant.creature`);
+    if (existingCreatureTile) {
+        existingCreatureTile.textContent = '';
     }
 
     // Find the target tile with appropriate x2 and y2
-    const targetTile2 = document.querySelector(`.tile.tile_${y2}_${x2}`);
+    const targetTile2 = document.querySelector(`.tile.tile_${x2}_${y2}`);
 
-    if (targetTile2) {
-        // Update the text in the target tile
-        let tileOccupant = targetTile2.querySelector('.tileOccupant');
-        if (tileOccupant) {
-            tileOccupant.textContent = 'Creature';
-            tileOccupant.classList.add('creature'); // Add a class to identify the Creature
-        }
+    let tileOccupant = targetTile2.querySelector('.tileOccupant');
+    if (!tileOccupant) {
+        tileOccupant = document.createElement('span');
+        tileOccupant.classList.add('tileOccupant');
+        targetTile2.appendChild(tileOccupant);
     }
 
-    console.log(`Creature spawned at coordinates: (${x2}, ${y2})`);
+    tileOccupant.textContent = 'Creature';
+    tileOccupant.classList.add('creature'); // Add a class to identify the Creature
+
+    // Log visibility
+    console.log('Is Creature visible?', tileOccupant.offsetWidth > 0);
+
+    // Return the coordinates for later use
+    return { x: x2, y: y2 };
 }
 
+
 // Call the spawnAlexei and spawnCreature functions to execute the code
+
+    let alexeiCoordinates; // Declare a variable to store Alexei's coordinates
+
 document.addEventListener('DOMContentLoaded', function () {
-    spawnAlexei();
+    alexeiCoordinates = spawnAlexei(); // Store the coordinates
     spawnCreature();
 });
 
@@ -135,7 +169,10 @@ function resetGame() {
     resetTaskList()
 
     // Variables to store random positions for the player
-            // (Notice how the two values are stored together in an array for the player and the monster)
+            // (Notice how the two values are defined and stored together in an array for the player and the monster)
+    
+    let [randomX1, randomY1] = generateX1Y1();
+    let [randomX2, randomY2] = generateX1Y1();
     let randomPlayerPosition = [randomX1, randomY1];
     let randomMonsterPosition = [randomX2, randomY2];
 
@@ -270,15 +307,12 @@ function displayDefeatScreen() {
     // }
 
 
-   let x1 = initX1;
-
-    let y1 = initY1;
-
-
 // 9. PLAYER MOVEMENT FUNCTIONS (PSEUDO)
 
     // 4 different functions. one for each arrow key. moveLeft(), moveRight()... 
     // For each movement function work, the player's initial x and y coordinates must be retrieved then passed into the movement function as parameters.
+
+
 
     
 
@@ -293,9 +327,15 @@ function displayDefeatScreen() {
 
 // Listener for the right arrow button
 
-// Listener for the right arrow button
-document.querySelector('.arrowRight').addEventListener('click', function() {
-    console.log("finally");
+// // Listener for the right arrow button
+// document.querySelector('.arrowRight').addEventListener('click', function() {
+//     moveAlexeiRight();
+// });
+
+
+// Listener for the test move button
+document.querySelector('#testMoveButton').addEventListener('click', function() {
+    moveAlexeiRight();
 });
 
 

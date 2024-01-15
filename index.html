@@ -1,192 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <script defer src="script.js"></script>
-    <title>FATHOM</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<script defer src="script.js"></script>
+<title>FATHOM</title>
 </head>
 <body>
-    <img src="https://i.imgur.com/Va5iIw5.jpg" alt="Placeholder Image">
+<!-- <img src="https://i.imgur.com/Va5iIw5.jpg" alt="Placeholder Image"> -->
 
-    <p class="movableIcons" id="playerIcon">Alexei(test)</p>
-    <p class="movableIcons" id="monsterIcon">Creature</p>
+<p class="movableIcons" id="playerIcon">Alexei(test)</p>
+<p class="movableIcons" id="monsterIcon">Creature</p>
 
-    <!-- Header Section -->
-    <div class="header">
-        <div class="radar-icon"></div>
-        <h1 class="title">FДTНӨM</h1>
-        <p class="subtitle">Maelstrom Games</p>
-    </div>
+<!-- Header Section -->
+<div class="header">
+    <div class="radar-icon"></div>
+    <h1 class="title">FДTНӨM</h1>
+    <p class="subtitle">Maelstrom Games</p>
+</div>
 
-    <!-- TASK LIST SECTION -->
-    <div class="task-list-box" id="task-list-current">
-        Current Task: Acquire scientist's notes from Lab.
-    </div>
+<!-- TASK LIST SECTION -->
+<div class="task-list-box" id="task-list-current">
+    Current Task: Acquire scientist's notes from Lab.
+</div>
 
-    <div class="task-list-box" id="task-list-next">
-        Next Task: Acquire fire extinguisher from Storage.
-    </div>
- 
+<div class="task-list-box" id="task-list-next">
+    Next Task: Acquire fire extinguisher from Storage.
+</div>
 
-    <div class="container">
-        <div class="row">
-            <div class="tile tile_1_1" id="tile1">
-                <span class="tileText">Captain's Quarters</span>
-                <span class="tileOccupant"></span>
-            </div>
-            <div class="tile tile_1_2" id="tile2">
-                <span class="tileText">H1</span>
-                <span class="tileOccupant"></span>
-            </div>
-            <div class="tile tile_1_3" id="tile3">
-                <span class="tileText">Lab</span>
-                <span class="tileOccupant"></span>
-            </div>
-            <div class="tile tile_1_4" id="tile4">
-                <span class="tileText">H2</span>
-                <span class="tileOccupant"></span>
-            </div>
-            <div class="tile tile_1_5" id="tile5">
-                <span class="tileText">Mess Hall</span>
-                <span class="tileOccupant"></span>
-            </div>
-            <div class="tile tile_1_6" id="tile6">
-                <span class="tileText">H3</span>
-                <span class="tileOccupant"></span>
-            </div>
-            <div class="tile tile_1_7" id="tile7">
-                <span class="tileText">Crew Quarters</span>
-                <span class="tileOccupant"></span>
-            </div>
+
+<div class="container">
+    <div class="row">
+        <div class="tile tile_1_1" id="tile1">
+            <span class="tileText">Captain's Quarters</span>
+            <span class="tileOccupant"></span>
         </div>
-        <div class="row">
-            <div class="tile tile_2_1" id="tile8">
-                <span class="tileText">Torpedo Bay</span>
-                <span class="tileOccupant"></span>
-            </div>
-            <div class="tile special" id="deadspace1"></div>
-            <div class="tile tile_2_3" id="tile9">
-                <span class="tileText">Control</span>
-            </div>
-            <div class="tile special" id="deadspace2"></div>
-            <div class="tile tile_2_5" id="tile10">
-                <span class="tileText">Reactor</span>
-                <span class="tileOccupant"></span>
-            </div>
-            <div class="tile special" id="deadspace3"></div>
-            <div class="tile tile_2_7" id="tile11">
-                <span class="tileText">Engine</span>
-                <span class="tileOccupant"></span>
-            </div>
+        <div class="tile tile_2_1" id="tile2">
+            <span class="tileText">H1</span>
+            <span class="tileOccupant"></span>
         </div>
-        <div class="row">
-            <div class="tile tile_3_1" id="tile12">
-                <span class="tileText">Storage</span>
-                <span class="tileOccupant"></span>
-            </div>
-            <div class="tile tile_3_2" id="tile13">
-                <span class="tileText">H4</span>
-                <span class="tileOccupant"></span>
-            </div>
-            <div class="tile tile_3_3" id="tile14">
-                <span class="tileText">Batteries</span>
-                <span class="tileOccupant"></span>
-            </div>
-            <div class="tile tile_3_4" id="tile15">
-                <span class="tileText">H5</span>
-                <span class="tileOccupant"></span>
-            </div>
-            <div class="tile tile_3_5" id="tile16">
-                <span class="tileText">Sonar</span>
-                <span class="tileOccupant"></span>
-            </div>
-            <div class="tile tile_3_6" id="tile17">
-                <span class="tileText">H6</span>
-                <span class="tileOccupant"></span>
-            </div>
-            <div class="tile tile_3_7" id="tile18">
-                <span class="tileText">Crew Quarters</span>
-                <span class="tileOccupant"></span>
-            </div>
+        <div class="tile tile_3_1" id="tile3">
+            <span class="tileText">Lab</span>
+            <span class="tileOccupant"></span>
+        </div>
+        <div class="tile tile_4_1" id="tile4">
+            <span class="tileText">H2</span>
+            <span class="tileOccupant"></span>
+        </div>
+        <div class="tile tile_5_1" id="tile5">
+            <span class="tileText">Mess Hall</span>
+            <span class="tileOccupant"></span>
+        </div>
+        <div class="tile tile_6_1" id="tile6">
+            <span class="tileText">H3</span>
+            <span class="tileOccupant"></span>
+        </div>
+        <div class="tile tile_7_1" id="tile7">
+            <span class="tileText">Crew Quarters</span>
+            <span class="tileOccupant"></span>
         </div>
     </div>
-    
-
-    <!-- Game Information Section -->
-    <div class="game-info">
-        <div class="player-info">
-            <!-- Player Health Section -->
-            <div class="info-box">
-                <p>Player Health:</p>
-                <div class="health-box">
-                    <span class="health-square player-health-square"></span>
-                    <span class="health-square player-health-square"></span>
-                    <span class="health-square player-health-square"></span>
-                    <span class="health-square player-health-square"></span>
-                    <span class="health-square player-health-square"></span>
-                </div>
-            </div>
-
-            <!-- Player Equipment Section -->
-            <div class="info-box">
-                <p>Player Equipment:</p>
-                <ul>
-                    <li>Ice Trap (0)</li>
-                    <li>Meat Decoy (0)</li>
-                    <li>Smoke Flash (0)</li>
-                </ul>
-            </div>
-
-            <!-- Creature Health Section -->
-            <div class="info-box">
-                <p>Creature Health:</p>
-                <div class="health-box">
-                    <span class="health-square monster-health-square"></span>
-                    <span class="health-square monster-health-square"></span>
-                    <span class="health-square monster-health-square"></span>
-                    <span class="health-square monster-health-square"></span>
-                    <span class="health-square monster-health-square"></span>
-                </div>
-            </div>
-
-            <!-- Movement Arrows Section -->
-            <div class="movement-arrows">
-                <p class="movement-display-text">Move:</p>
-                <div class="arrow-box">
-                    <button class="arrow-btn arrowUp">↑</button>
-                    <button class="arrow-btn arrowLeft">←</button>
-                    <button class="arrow-btn arrowDown">↓</button>
-                    <button class="arrow-btn arrowRight">→</button>                    
-                </div>
-            </div>
+    <div class="row">
+        <div class="tile tile_1_2" id="tile8">
+            <span class="tileText">Torpedo Bay</span>
+            <span class="tileOccupant"></span>
+        </div>
+        <div class="tile special" id="deadspace1"></div>
+        <div class="tile tile_3_2" id="tile9">
+            <span class="tileText">Control</span>
+        </div>
+        <div class="tile special" id="deadspace2"></div>
+        <div class="tile tile_5_2" id="tile10">
+            <span class="tileText">Reactor</span>
+            <span class="tileOccupant"></span>
+        </div>
+        <div class="tile special" id="deadspace3"></div>
+        <div class="tile tile_7_2" id="tile11">
+            <span class="tileText">Engine</span>
+            <span class="tileOccupant"></span>
         </div>
     </div>
+    <div class="row">
+        <div class="tile tile_1_3" id="tile12">
+            <span class="tileText">Storage</span>
+            <span class="tileOccupant"></span>
+        </div>
+        <div class="tile tile_2_3" id="tile13">
+            <span class="tileText">H4</span>
+            <span class="tileOccupant"></span>
+        </div>
+        <div class="tile tile_3_3" id="tile14">
+            <span class="tileText">Batteries</span>
+            <span class="tileOccupant"></span>
+        </div>
+        <div class="tile tile_4_3" id="tile15">
+            <span class="tileText">H5</span>
+            <span class="tileOccupant"></span>
+        </div>
+        <div class="tile tile_5_3" id="tile16">
+            <span class="tileText">Sonar</span>
+            <span class="tileOccupant"></span>
+        </div>
+        <div class="tile tile_6_3" id="tile17">
+            <span class="tileText">H6</span>
+            <span class="tileOccupant"></span>
+        </div>
+        <div class="tile tile_7_3" id="tile18">
+            <span class="tileText">Crew Quarters</span>
+            <span class="tileOccupant"></span>
+        </div>
+    </div>
+</div>
 
-    <!-- Footer Section -->
-    <div class="footer">
-        <!-- Rules Dropdown Section -->
-        <div class="dropdown rightbottombtn">
-            <button class="dropbtn">RULES</button>
-            <div class="dropdown-content">
-                <!-- Add your rules content here -->
+
+<!-- Game Information Section -->
+<div class="game-info">
+    <div class="player-info">
+        <!-- Player Health Section -->
+        <div class="info-box">
+            <p>Player Health:</p>
+            <div class="health-box">
+                <span class="health-square player-health-square"></span>
+                <span class="health-square player-health-square"></span>
+                <span class="health-square player-health-square"></span>
+                <span class="health-square player-health-square"></span>
+                <span class="health-square player-health-square"></span>
             </div>
         </div>
 
-        <!-- Reset Button Section -->
-        <div class="reset-btn">
-            <button class="resetbtn">RESET</button>
+        <!-- Player Equipment Section -->
+        <div class="info-box">
+            <p>Player Equipment:</p>
+            <ul>
+                <li>Ice Trap (0)</li>
+                <li>Meat Decoy (0)</li>
+                <li>Smoke Flash (0)</li>
+            </ul>
         </div>
 
-        <!-- Classified Info Dropdown Section -->
-        <div class="dropdown leftbottombtn">
-            <button class="dropbtn">CLASSIFIED INFO</button>
-            <div class="dropdown-content">
-                <!-- Add your classified info content here -->
+        <!-- Creature Health Section -->
+        <div class="info-box">
+            <p>Creature Health:</p>
+            <div class="health-box">
+                <span class="health-square monster-health-square"></span>
+                <span class="health-square monster-health-square"></span>
+                <span class="health-square monster-health-square"></span>
+                <span class="health-square monster-health-square"></span>
+                <span class="health-square monster-health-square"></span>
+            </div>
+        </div>
+
+        <!-- Movement Arrows Section -->
+        <div class="movement-arrows">
+            <p class="movement-display-text">Move:</p>
+            <div class="arrow-box">
+                <button class="arrow-btn arrowUp">↑</button>
+                <button class="arrow-btn arrowLeft">←</button>
+                <button class="arrow-btn arrowDown">↓</button>
+                <button class="arrow-btn arrowRight">→</button>                    
             </div>
         </div>
     </div>
+</div>
+
+<!-- Footer Section -->
+<div class="footer">
+    <!-- Rules Dropdown Section -->
+    <div class="dropdown rightbottombtn">
+        <button class="dropbtn">RULES</button>
+        <div class="dropdown-content">
+            <!-- Add your rules content here -->
+        </div>
+    </div>
+
+    <!-- Reset Button Section -->
+    <div class="reset-btn">
+        <button class="resetbtn">RESET</button>
+    </div>
+
+    <!-- Classified Info Dropdown Section -->
+    <div class="dropdown leftbottombtn">
+        <button class="dropbtn">CLASSIFIED INFO</button>
+        <div class="dropdown-content">
+            <!-- Add your classified info content here -->
+        </div>
+    </div>
+</div>
+
+<button id="testMoveButton">Test Move Right</button>
 
 </body>
 </html>

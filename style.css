@@ -64,7 +64,8 @@ body {
 .tileOccupant {
     display: block;
     transform: translate(0px, 10px);
-    margin-top: 15px;
+    margin-top: 20px;
+    font-size: 22px;
 }
 
 /* THE TASK LIST */
