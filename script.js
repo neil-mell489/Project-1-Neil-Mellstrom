@@ -388,22 +388,47 @@ document.querySelector('.test').addEventListener('click', function() {
 // UP Listener
 document.querySelector('.arrowUp').addEventListener('click', function() {
     moveAlexei(0, -1);
+    // changeTurn("Creature")
 });
 
 // LEFT Listener
 document.querySelector('.arrowLeft').addEventListener('click', function() {
     moveAlexei(-1, 0);
+    // changeTurn("Creature")
 });
 
 // DOWN Listener
 document.querySelector('.arrowDown').addEventListener('click', function() {
     moveAlexei(0, 1);
+    // changeTurn("Creature")
 });
 
 // RIGHT Listener
 document.querySelector('.arrowRight').addEventListener('click', function() {
     moveAlexei(1, 0);
+    // changeTurn("Creature")
 });
+
+
+// Arrow KEYS
+document.addEventListener('keydown', function (event) {
+    // Check if the pressed key is an arrow key
+    if (event.key === 'ArrowUp') {
+        // Handle the UP arrow key press
+        moveAlexei(0, -1);
+    } else if (event.key === 'ArrowDown') {
+        // Handle the DOWN arrow key press
+        moveAlexei(0, 1);
+    } else if (event.key === 'ArrowLeft') {
+        // Handle the LEFT arrow key press
+        moveAlexei(-1, 0);
+    } else if (event.key === 'ArrowRight') {
+        // Handle the RIGHT arrow key press
+        moveAlexei(1, 0);
+    }
+});
+
+
 
 // Function to move Alexei based on the given dx and dy
 function moveAlexei(dx, dy) {
@@ -449,3 +474,5 @@ function updateAlexeiPosition(newX, newY) {
         console.log(`Alexei moved to coordinates: (${x1}, ${y1})`);
     }
 }
+
+

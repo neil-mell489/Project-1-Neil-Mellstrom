@@ -109,13 +109,7 @@ body {
     justify-content: center;
 }
 
-.health-dot {
-    width: 15px;
-    height: 15px;
-    background-color: #00cc00; /* Solid green color */
-    margin: 0 5px;
-    border-radius: 0; /* Make the dots square */
-}
+
 
 /* Movement arrows styles */
 .movement-arrows {
@@ -128,12 +122,14 @@ body {
 }
 
 .arrow-btn {
-    width: 30px;
-    height: 30px;
-    font-size: 1.5em;
-    background-color: #ccc;
-    border: none;
+    margin-top: 20px;
+    width: 60px;
+    height: 60px;
+    font-size: 2em;
+    background-color: #343434;;
+    border: 1.5px solid #00e46b;
     cursor: pointer;
+    color: #00e46b;
 }
 
 /* NO EFFECT */
