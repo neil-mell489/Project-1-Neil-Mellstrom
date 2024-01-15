@@ -21,7 +21,7 @@ body {
 
 /* Title styles */
 .title {
-    font-size: 2em;
+    font-size: 3em;
 }
 
 /* Subtitle styles */
@@ -64,7 +64,7 @@ body {
 .tileOccupant {
     display: block;
     transform: translate(0px, 10px);
-    margin-top: 30px;
+    margin-top: 15px;
 }
 
 /* THE TASK LIST */

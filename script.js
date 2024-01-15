@@ -8,18 +8,14 @@
 //  7. Victory and Defeat Alerts
 //  8. Player Initial Position (this should be in Game Setup)
 //  9. Player Movement Functions
-//  10. ...
+//  10. Arrow Button Listeners
 //  11. ...
 //  12. ...
 
 
-// NOTE TO SELF - You probbaly want an array of arrays (a matrix) that has all the rooms x and y values. 
-// each stored in their own two value array.
-//  This will allow you to 
+// MOVEMENT PSEUDO 
 
-
-
-
+    // 
 
 
 // 1. GAME SETUP (Initial)
@@ -34,27 +30,27 @@
 // ----------------------------------------------------------
 
 // RANDOM PLAYER COORDINATES FOR INITIAL SPAWN
-// Function to generate two random numbers
+
+// Generate a random X value and Y value for Player's spawn coordinates
 function generateX1Y1() {
-    // Generate the first random number in the range [1, 3]
-    const randomX1 = Math.floor(Math.random() * 3) + 1;
+    let randomx1;
+    let randomy1;
 
-    let randomY1;
+    const forbiddenCoordinates = [[2, 2], [4, 2], [6, 2]];
 
-    // Generate the second random number in the range [1, 7], excluding certain values if the first number is 2
-    if (randomX1 === 2) {
-        do {
-            randomY1 = Math.floor(Math.random() * 7) + 1;
-        } while (randomY1 % 2 === 0);
-    } else {
-        randomY1 = Math.floor(Math.random() * 7) + 1;
-    }
+    do {
+        // Generate the first random number in the range [1, 7]
+        randomx1 = Math.floor(Math.random() * 7) + 1;
+
+        // Generate the second random number in the range [1, 3]
+        randomy1 = Math.floor(Math.random() * 3) + 1;
+    } while (forbiddenCoordinates.some(coord => coord[0] === randomx1 && coord[1] === randomy1));
 
     // Return an array with the generated values
-    return [randomX1, randomY1];
+    return [randomx1, randomy1];
 }
 
-// Function to display Alexei in a square
+// SPAWN ALEXEI IN TILE
 function spawnAlexei() {
     // Retrieve and define coordinates using the generateX1Y1 function
     let [x1, y1] = generateX1Y1();
@@ -66,22 +62,56 @@ function spawnAlexei() {
     }
 
     // Find the target tile with appropriate x1 and y1
-    const targetTile1 = document.querySelector(`.tile.tile_${x1}_${y1}`);
+    const targetTile1 = document.querySelector(`.tile.tile_${y1}_${x1}`);
 
     if (targetTile1) {
         // Update the text in the target tile
-        const tileOccupant = targetTile1.querySelector('.tileOccupant');
+        let tileOccupant = targetTile1.querySelector('.tileOccupant');
         if (tileOccupant) {
             tileOccupant.textContent = 'Alexei';
         }
     }
 
-    console.log(`Alexei spawned at coordinates: (${x1}, ${y1})`);
+    console.log(`Alexei FIRST spawned at coordinates: (${x1}, ${y1})`);
+
+
+
+
+
+
+
 }
 
-// Call the spawnAlexei function to execute the code
+// Function to display Creature in a square
+function spawnCreature() {
+    // Retrieve and define coordinates using the generateX1Y1 function
+    let [x2, y2] = generateX1Y1();
+
+    // Remove existing Creature from any tile
+    const existingCreature = document.querySelector('.tileOccupant.creature');
+    if (existingCreature) {
+        existingCreature.textContent = '';
+    }
+
+    // Find the target tile with appropriate x2 and y2
+    const targetTile2 = document.querySelector(`.tile.tile_${y2}_${x2}`);
+
+    if (targetTile2) {
+        // Update the text in the target tile
+        let tileOccupant = targetTile2.querySelector('.tileOccupant');
+        if (tileOccupant) {
+            tileOccupant.textContent = 'Creature';
+            tileOccupant.classList.add('creature'); // Add a class to identify the Creature
+        }
+    }
+
+    console.log(`Creature spawned at coordinates: (${x2}, ${y2})`);
+}
+
+// Call the spawnAlexei and spawnCreature functions to execute the code
 document.addEventListener('DOMContentLoaded', function () {
     spawnAlexei();
+    spawnCreature();
 });
 
 
@@ -105,60 +135,9 @@ function resetGame() {
     resetTaskList()
 
     // Variables to store random positions for the player
-
-
-    // Notice how the two values are stored together in an array for the player and the monster.
+            // (Notice how the two values are stored together in an array for the player and the monster)
     let randomPlayerPosition = [randomX1, randomY1];
     let randomMonsterPosition = [randomX2, randomY2];
-
-
-                // I dont thik this is the best way to set the spawnpoint and manipulate movement (below)
-                    // function generateTileCoordinatesString() {
-                    //     // Generate two random numbers
-                    //     const [randomNumber1, randomNumber2] = generateTwoRandomNumbers();
-                    
-                    //     // Create the string in the format "tile X,Y"
-                    //     const coordinatesString = `tile ${randomNumber1},${randomNumber2}`;
-                    
-                    //     return coordinatesString;
-                    // }
-
-
-
-
-
-    // SPAWN ALEXEI ON TILE
-
-
-
-                // Same here, kinda chunky isn't it?
-
-                    // function moveAlexeiToTile(initialPlayerPosition, targetCoordinatesString) {
-                    //     // Get the initial player position element
-                    //     const initialTileElement = getTileElementByCoordinatesString(initialPlayerPosition);
-                    
-                    //     // Get the target tile element
-                    //     const targetTileElement = getTileElementByCoordinatesString(targetCoordinatesString);
-                    
-                    //     // Get the Alexei span element
-                    //     const alexeiSpan = initialTileElement.querySelector('.tileOccupant');
-                    
-                    //     // Remove Alexei from the initial tile
-                    //     initialTileElement.removeChild(alexeiSpan);
-                    
-                    //     // Append Alexei to the target tile
-                    //     targetTileElement.appendChild(alexeiSpan);
-                    // }
-    
-                    // // Example usage with initial player position and target coordinates
-                    // const initialPlayerPosition = "tile 1 1";
-                    // const targetCoordinatesString = "tile 2 2";
-                    
-                    // // Move Alexei to the new tile
-                    // moveAlexeiToTile(initialPlayerPosition, targetCoordinatesString);
-
-    
-
 
 
     // Variable to track the current turn (initially set to "player")
@@ -172,51 +151,18 @@ function resetGame() {
     let monsterHealth = 5;
 
 
-                        // ENTIRE HEALTH DISPLAY DOESNT WORK RIGHT NOW
-
-                            // // Function to update the health display for both player and monster
-                            // function updateHealthDisplay() {
-                            //     updatePlayerHealth();
-                            //     updateMonsterHealth();
-                            // }
-
-                            // // Function to update the player health display
-                            // function updatePlayerHealth() {
-                            //     const playerHealthSquares = document.querySelectorAll('.player-health-square');
-
-                            //     playerHealthSquares.forEach((square, index) => {
-                            //         // If the index is less than playerHealth, show a solid green square; otherwise, show an empty square
-                            //         square.classList.toggle('empty', index >= playerHealth);
-                            //     });
-                            // }
-
-                            // // Function to update the monster health display
-                            // function updateMonsterHealth() {
-                            //     const monsterHealthSquares = document.querySelectorAll('.monster-health-square');
-
-                            //     monsterHealthSquares.forEach((square, index) => {
-                            //         // If the index is less than monsterHealth, show a solid green square; otherwise, show an empty square
-                            //         square.classList.toggle('empty', index >= monsterHealth);
-                            //     });
-                            // }
-
-                            // // Call the updateHealthDisplay function to initialize the health display
-                            // updateHealthDisplay();
-
+              
     // CONTINUE RESET FUNCTION RIGHT HERE
 
 }
 
-// RESET BUTTON LISTENER
+    // RESET BUTTON LISTENER
 let resetButton = document.querySelector('.resetbtn');
 
 resetButton.addEventListener('click', function() {
     // Call the resetGame function when the reset button is clicked
     resetGame();
 });
-
-
-
 
 
 // 3. TASK LIST ARRAY
@@ -273,16 +219,6 @@ function resetTaskList() {
     
     updateTaskList(currentTaskDisplay)
 
-
-
-
-
-
-
-
-
-
-
 // 6. ROOMS LIST (currently does nothing whoops)
 
 const roomsArray = [
@@ -334,9 +270,38 @@ function displayDefeatScreen() {
     // }
 
 
+   let x1 = initX1;
+
+    let y1 = initY1;
+
+
 // 9. PLAYER MOVEMENT FUNCTIONS (PSEUDO)
 
     // 4 different functions. one for each arrow key. moveLeft(), moveRight()... 
     // For each movement function work, the player's initial x and y coordinates must be retrieved then passed into the movement function as parameters.
 
+    
 
+
+    
+
+
+    // 10. ARROW BUTTON LISTENERS
+
+
+        // RIGHT
+
+// Listener for the right arrow button
+
+// Listener for the right arrow button
+document.querySelector('.arrowRight').addEventListener('click', function() {
+    console.log("finally");
+});
+
+
+        // LEFT 
+
+        
+
+
+        // COORDINATES 3,2 DONT DISPLAY ALEXEI
