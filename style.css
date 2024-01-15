@@ -56,11 +56,9 @@ body {
 .tileText {
     display: inline-block;
     transform: translate(0px, 10px);
-    
 }
 
 /* TILE OCCUPANT TEXT STYLING */
-
 .tileOccupant {
     display: block;
     transform: translate(0px, 10px);
@@ -69,17 +67,13 @@ body {
 }
 
 /* THE TASK LIST */
-
 .task-list-box {
-    max-width: 200px; /* Set a maximum width for the boxes */
-    border: 1.5px solid #00e46b; /* Border style */
-    margin-bottom: 5px; /* Add some margin at the bottom */
-    padding: 15px; /* Padding inside each box */
-    display: inline-block; /* Display boxes inline */
-
+    max-width: 200px;
+    border: 1.5px solid #00e46b;
+    margin-bottom: 5px;
+    padding: 15px;
+    display: inline-block;
 }
-
-
 
 /* Special tile styles (if applicable) */
 .tile.special {
@@ -100,7 +94,7 @@ body {
 .info-box {
     text-align: center;
     margin-bottom: 15px;
-    font-size: 1.5em; /* Increase font size */
+    font-size: 1.5em;
 }
 
 /* Health box styles */
@@ -109,6 +103,21 @@ body {
     justify-content: center;
 }
 
+.health-square {
+    width: 20px;
+    height: 20px;
+    margin: 0 3px;
+    border: 1px solid #00e46b;
+    background-color: transparent;
+}
+
+.solid-square {
+    background-color: #00e46b;
+}
+
+.hollow-square {
+    background-color: transparent;
+}
 
 
 /* Movement arrows styles */
@@ -126,7 +135,7 @@ body {
     width: 60px;
     height: 60px;
     font-size: 2em;
-    background-color: #343434;;
+    background-color: #343434;
     border: 1.5px solid #00e46b;
     cursor: pointer;
     color: #00e46b;
@@ -153,14 +162,14 @@ body {
     padding: 10px;
     border: none;
     cursor: pointer;
-    margin: 0 auto; /* Center the reset button */
+    margin: 0 auto;
 }
 
 /* Dropdown styles */
 .dropdown {
     position: relative;
     display: inline-block;
-    margin: 0 10px; /* Add margin to the dropdowns */
+    margin: 0 10px;
 }
 
 .dropbtn {
@@ -190,5 +199,3 @@ body {
 .dropdown-content a:hover {
     background-color: #4c4c4c;
 }
-
-/* Adjustments for special tiles or other specific elements if needed */

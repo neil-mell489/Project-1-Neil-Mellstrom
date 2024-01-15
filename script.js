@@ -4,11 +4,11 @@
 //  3. Task List Array
 //  4. Not sure where to Put this
 //  5. Updating Task List Display
-//  6. Rooms List (currently does nothing. Probbaly will never do anything)
+//  6. -
 //  7. Victory and Defeat Alerts
 //  8. Player Initial Position (this should be in Game Setup)
 //  9. Player Movement Functions
-//  10. Arrow Button Listeners
+//  10. -
 //  11. ...
 //  12. ...
 
@@ -18,6 +18,9 @@
     let x1, y1;
 
     let x2, y2;
+
+    let previousX2, previousY2; 
+    
 
 
 // MOVEMENT PSEUDO 
@@ -103,7 +106,7 @@ function spawnAlexei() {
 // SPAWN CREATURE IN TILE
 function spawnCreature() {
     // Retrieve and define coordinates using the generateX1Y1 function
-    let [x2, y2] = generateX1Y1();
+    [x2, y2] = generateX1Y1();  // Use the global x2 and y2 variables
 
     // Check if Alexei is present in the target tile
     const existingAlexei = document.querySelector(`.tile.tile_${x2}_${y2} .tileOccupant.alexei`);
@@ -143,7 +146,6 @@ function spawnCreature() {
 
     // Return the coordinates for later use
     return { x: x2, y: y2 };
-
 }
 
 
@@ -190,8 +192,8 @@ function resetGame() {
                                 // const randomNumbers = twoRandomNumbers();
 
     // RESET PLAYER HEALTH AND MONSTER HEALTH
-    let playerHealth = 5;
-    let monsterHealth = 5;
+    // let playerHealth = 5;
+    // let monsterHealth = 5;
 
 
               
@@ -262,28 +264,7 @@ function resetTaskList() {
     
     updateTaskList(currentTaskDisplay)
 
-// 6. ROOMS LIST (currently does nothing whoops)
-
-const roomsArray = [
-    [1, 'Crew Quarters 1'],
-    [2, 'Torpedo Bay'],
-    [3, 'Crew Quarters 2'],
-    [4, 'H1'],
-    [5, 'H4'],
-    [6, 'Mess Hall'],
-    [7, 'Control'],
-    [8, 'Sonar'],
-    [9, 'H2'],
-    [10, 'H5'],
-    [11, 'Lab'],
-    [12, 'Reactor'],
-    [13, 'Batteries'],
-    [14, 'H3'],
-    [15, 'H6'],
-    [16, "Captain's Quarters"],
-    [17, 'Engines'],
-    [18, 'Storage']
-];
+// 6. -
 
 
 // 7. VICTORY AND DEFEAT ALERTS
@@ -326,7 +307,7 @@ function displayDefeatScreen() {
     
 
 
-    // 10. ARROW BUTTON LISTENERS
+    // 10. -
 
 
 
@@ -410,21 +391,33 @@ document.querySelector('.arrowRight').addEventListener('click', function() {
 });
 
 
-// Arrow KEYS
+// Arrow key press listener
 document.addEventListener('keydown', function (event) {
     // Check if the pressed key is an arrow key
-    if (event.key === 'ArrowUp') {
-        // Handle the UP arrow key press
-        moveAlexei(0, -1);
-    } else if (event.key === 'ArrowDown') {
-        // Handle the DOWN arrow key press
-        moveAlexei(0, 1);
-    } else if (event.key === 'ArrowLeft') {
-        // Handle the LEFT arrow key press
-        moveAlexei(-1, 0);
-    } else if (event.key === 'ArrowRight') {
-        // Handle the RIGHT arrow key press
-        moveAlexei(1, 0);
+    if (event.key.startsWith('Arrow')) {
+        event.preventDefault(); // Prevent the default behavior of arrow keys (scrolling)
+        
+        // Determine the direction based on the arrow key pressed
+        let dx = 0;
+        let dy = 0;
+
+        switch (event.key) {
+            case 'ArrowUp':
+                dy = -1;
+                break;
+            case 'ArrowDown':
+                dy = 1;
+                break;
+            case 'ArrowLeft':
+                dx = -1;
+                break;
+            case 'ArrowRight':
+                dx = 1;
+                break;
+        }
+
+        // Move Alexei in the determined direction
+        moveAlexei(dx, dy);
     }
 });
 
@@ -475,4 +468,72 @@ function updateAlexeiPosition(newX, newY) {
     }
 }
 
+
+
+// UPDATE HEALTH DISPLAYS
+
+// Function to test player health
+function updatePlayerHealth(healthValue) {
+    const playerHealthBox = document.querySelector('.player-health-box');
+    clearHealthBox(playerHealthBox);
+
+    for (let i = 1; i <= 5; i++) {
+        const square = document.createElement('div');
+        square.classList.add('health-square');
+        if (i <= healthValue) {
+            square.classList.add('solid-square');
+        } else {
+            square.classList.add('hollow-square');
+        }
+        playerHealthBox.appendChild(square);
+    }
+}
+
+// Function to test creature health
+function updateCreatureHealth(healthValue) {
+    const creatureHealthBox = document.querySelector('.creature-health-box');
+    clearHealthBox(creatureHealthBox);
+
+    for (let i = 1; i <= 5; i++) {
+        const square = document.createElement('div');
+        square.classList.add('health-square');
+        if (i <= healthValue) {
+            square.classList.add('solid-square');
+        } else {
+            square.classList.add('hollow-square');
+        }
+        creatureHealthBox.appendChild(square);
+    }
+}
+
+// Function to clear health box
+function clearHealthBox(healthBox) {
+    healthBox.innerHTML = '';
+}
+
+
+// ADJUST THESE PARAMETERS TO UPDATE HEALTH OF PLAYER OR CREATURE
+updatePlayerHealth(5);
+updateCreatureHealth(3);
+
+
+
+
+
+
+
+
+// CREATURE MOVEMENT TEST BUTTON
+const moveCreatureButton = document.querySelector('.testmovecreature');
+
+// Add a click event listener to the button
+moveCreatureButton.addEventListener('click', function () {
+    // Call the function to move the creature randomly
+    // alert("AHHHHH");
+    moveCreatureRandomly();
+
+    
+});
+
+// CREATURE MOVEMENT (add to it so its between player turns after its confirmed to be working via test button press)
 
