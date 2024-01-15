@@ -537,3 +537,7 @@ moveCreatureButton.addEventListener('click', function () {
 
 // CREATURE MOVEMENT (add to it so its between player turns after its confirmed to be working via test button press)
 
+    // PSEUDO
+
+    // works just like player movement only it 
+    // uses x2 and y2, its will choose a random direction (excluding walls and the way it came) and it will be tested by the MOVE CREATURE button.
