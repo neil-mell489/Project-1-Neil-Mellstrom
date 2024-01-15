@@ -12,6 +12,13 @@
 //  11. ...
 //  12. ...
 
+// PREFACE
+    // GLOBAL DEFININTIONS
+
+    let x1, y1;
+
+    let x2, y2;
+
 
 // MOVEMENT PSEUDO 
 
@@ -53,7 +60,7 @@ function generateX1Y1() {
 // SPAWN ALEXEI IN TILE
 function spawnAlexei() {
     // Retrieve and define coordinates using the generateX1Y1 function
-    let [x1, y1] = generateX1Y1();
+    [x1, y1] = generateX1Y1();
 
     // Remove existing Alexei from any tile
     const existingAlexei = document.querySelector('.tileOccupant.alexei');
@@ -75,7 +82,6 @@ function spawnAlexei() {
 
     console.log(`Alexei FIRST spawned at coordinates: (${x1}, ${y1})`);
 
-
     let tileOccupant = targetTile1.querySelector('.tileOccupant');
 
     if (!tileOccupant) {
@@ -84,13 +90,14 @@ function spawnAlexei() {
         targetTile1.appendChild(tileOccupant);
     }
     tileOccupant.textContent = 'Alexei';
-    
+
     // Log visibility
     console.log('Is Alexei visible?', tileOccupant.offsetWidth > 0);
 
     // Return the coordinates for later use
     return { x: x1, y: y1 };
 }
+
 
 
 // SPAWN CREATURE IN TILE
@@ -136,6 +143,7 @@ function spawnCreature() {
 
     // Return the coordinates for later use
     return { x: x2, y: y2 };
+
 }
 
 
@@ -147,8 +155,6 @@ document.addEventListener('DOMContentLoaded', function () {
     alexeiCoordinates = spawnAlexei(); // Store the coordinates
     spawnCreature();
 });
-
-
 
 
 
@@ -323,25 +329,123 @@ function displayDefeatScreen() {
     // 10. ARROW BUTTON LISTENERS
 
 
-        // RIGHT
 
-// Listener for the right arrow button
 
-// // Listener for the right arrow button
+
+
+
+
+
+// ARROW BUTTON LISTENERS
+
+// // UP Listener
+// document.querySelector('.arrowUp').addEventListener('click', function() {
+//     alert("UPPIES");
+    
+//     // PSUEDO 
+//     //  take x1 and y1, subtract 1 from y1
+
+// });
+
+// // LEFT Listener
+// document.querySelector('.arrowLeft').addEventListener('click', function() {
+//     alert("LEFTIES");
+
+//     // PSUEDO 
+//     //  take x1 and y1, subtract 1 from x1
+
+// });
+
+// // DOWN Listener
+// document.querySelector('.arrowDown').addEventListener('click', function() {
+//     alert("DOWNIES");
+
+//  // PSUEDO 
+//     //  take x1 and y1, add 1 to y1
+
+// });
+
+// // RIGHT Listener
 // document.querySelector('.arrowRight').addEventListener('click', function() {
-//     moveAlexeiRight();
+//     alert("RIGHTIES");
+
+//      // PSUEDO 
+//     //  take x1 and y1, add 1 to x1
+
 // });
 
 
-// Listener for the test move button
-document.querySelector('#testMoveButton').addEventListener('click', function() {
-    moveAlexeiRight();
+// Test Button Listener
+document.querySelector('.test').addEventListener('click', function() {
+    // Call a function or perform any actions when the "Test" button is clicked
+    alert("Test button clicked!");
+    // You can add your test-related code here
 });
 
 
-        // LEFT 
+// ARROW BUTTON LISTENERS
 
-        
+// UP Listener
+document.querySelector('.arrowUp').addEventListener('click', function() {
+    moveAlexei(0, -1);
+});
 
+// LEFT Listener
+document.querySelector('.arrowLeft').addEventListener('click', function() {
+    moveAlexei(-1, 0);
+});
 
-        // COORDINATES 3,2 DONT DISPLAY ALEXEI
+// DOWN Listener
+document.querySelector('.arrowDown').addEventListener('click', function() {
+    moveAlexei(0, 1);
+});
+
+// RIGHT Listener
+document.querySelector('.arrowRight').addEventListener('click', function() {
+    moveAlexei(1, 0);
+});
+
+// Function to move Alexei based on the given dx and dy
+function moveAlexei(dx, dy) {
+    // Retrieve the current coordinates
+    let currentX = x1;
+    let currentY = y1;
+
+    // Calculate the new coordinates
+    let newX = currentX + dx;
+    let newY = currentY + dy;
+
+    // Perform any additional checks or actions based on the new coordinates
+
+    // Update Alexei's position
+    updateAlexeiPosition(newX, newY);
+}
+
+// Function to update Alexei's position
+function updateAlexeiPosition(newX, newY) {
+    // Update the UI to reflect the new position
+    // For example, you can update the CSS class of the corresponding tile
+    const currentTile = document.querySelector(`.tile.tile_${x1}_${y1}`);
+    const newTile = document.querySelector(`.tile.tile_${newX}_${newY}`);
+
+    if (currentTile && newTile) {
+        // Remove Alexei from the current tile
+        currentTile.querySelector('.tileOccupant').textContent = '';
+
+        // Update Alexei's position in the new tile
+        let tileOccupant = newTile.querySelector('.tileOccupant');
+        if (!tileOccupant) {
+            tileOccupant = document.createElement('span');
+            tileOccupant.classList.add('tileOccupant');
+            newTile.appendChild(tileOccupant);
+        }
+        tileOccupant.textContent = 'Alexei';
+
+        // Update the global coordinates
+        x1 = newX;
+        y1 = newY;
+
+        // Log the updated coordinates
+        console.log(`Alexei moved to coordinates: (${x1}, ${y1})`);
+    }
+}
