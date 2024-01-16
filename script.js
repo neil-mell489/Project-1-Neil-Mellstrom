@@ -267,6 +267,8 @@ function resetTaskList() {
 // 6. -
 
 
+
+
 // 7. VICTORY AND DEFEAT ALERTS
             // change to a prompt later with Reset Game button and a Dismiss button
 
@@ -527,13 +529,13 @@ updateCreatureHealth(3);
 const moveCreatureButton = document.querySelector('.testmovecreature');
 
 // Add a click event listener to the button
-moveCreatureButton.addEventListener('click', function () {
+// moveCreatureButton.addEventListener('click', function () {
     // Call the function to move the creature randomly
     // alert("AHHHHH");
-    moveCreatureRandomly();
+    // moveCreatureRandomly();
 
     
-});
+// });
 
 // CREATURE MOVEMENT (add to it so its between player turns after its confirmed to be working via test button press)
 
@@ -541,3 +543,47 @@ moveCreatureButton.addEventListener('click', function () {
 
     // works just like player movement only it 
     // uses x2 and y2, its will choose a random direction (excluding walls and the way it came) and it will be tested by the MOVE CREATURE button.
+
+
+    // Creature will only spawn initially once and any attempts to spawn twice return NULL (i hope)
+    let creatureSpawned = false;
+
+    function spawnCreatureOnce() {
+        if (!creatureSpawned) {
+            const coordinates = spawnCreature();
+            creatureSpawned = true;
+            return coordinates;
+        } else {
+            return null; // Return null or any other value to indicate that the creature has already been spawned
+        }
+    }
+    
+    //  Detect where creature element is and return the coordinates.
+    
+    
+
+    
+    // Generate random number to determine Manipulation of Spawn Coordinates
+
+    
+
+    
+    // Take Creatures Intitial Spawn Coordinates and add or subtract from either randomly (within the no walls and no doubleback rules)
+
+
+
+
+
+
+// const coordinates = {x: 1, y: 1};
+// const xValue = coordinates.x;
+// const yValue = coordinates.y;
+
+// // Create a query selector based on the values of x and y
+// const selector = `.tile.tile_${xValue}_${yValue}`;
+
+// // Use the selector to select the corresponding element in the DOM
+// const selectedElement = document.querySelector(selector);
+
+// // Log the selected element
+// console.log(selectedElement);
