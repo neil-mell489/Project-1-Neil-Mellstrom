@@ -67,12 +67,19 @@ body {
 }
 
 /* THE TASK LIST */
-.task-list-box {
-    max-width: 200px;
+.task-list-container {
+    display: flex;
+    justify-content: space-around; /* or space-between or space-evenly */
+    max-width: 400px; /* Adjust max-width as needed */
+    margin: 30px auto; /* Add some margin for breathing room */
+}
+
+#task-list-current,
+#task-list-next {
+    text-align: center;
     border: 1.5px solid #00e46b;
-    margin-bottom: 5px;
-    padding: 15px;
-    display: inline-block;
+    padding: 10px; /* Reduced padding for a sleeker look */
+    flex: 1; /* This property will make them equally share the available space */
 }
 
 /* Special tile styles (if applicable) */
