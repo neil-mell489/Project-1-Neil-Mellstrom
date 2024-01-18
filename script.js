@@ -495,7 +495,7 @@ function updateCreaturePosition(newX, newY) {
 
     // calculate who gets damaged (player has 75% chance to lose health, Creature has 25%)
     // update health display accordingly
-    // call functions to repawn creature to random position after faceoff
+    // call functions to repawn creature to random position after f
 
 
 
