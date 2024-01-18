@@ -152,6 +152,8 @@ document.querySelector('.test').addEventListener('click', function() {
         // Log visibility
         console.log('Is Creature visible?', tileOccupant.offsetWidth > 0);
 
+        console.log(`Creature FIRST spawned at coordinates: (${x2}, ${y2})`);
+
         // Return the coordinates for later use
         return { x: x2, y: y2 };
     }
@@ -438,6 +440,17 @@ document.querySelector('.test').addEventListener('click', function() {
 
 
 // 13. CREATURE MOVEMENT
+// IMPORTANT SIDE NOTE: IF THIS DOESNT WORK, 
+// MAKE A SIMILAR BUT DIFFERENT VERSION OF THE SECTION FOR ALEXEIS MOVEMENT.
+// COPY AND PASTE HIS ENTIRE SECTION THEN REPLACE ARROW FUNCTION INPUT WITH RANDOM NUMBER INPUT
+// Might also be good to just copy and paste Alexei logic to make Creature Move and 
+// before doing creature specific edits, 
+// just make sure your arrow keys and buttons work to move creature around
+
+
+        // global definitions for creature (i think????)
+
+        // let updatedX, updatedY;
 
 // a. CREATURE MOVEMENT TEST BUTTON
 document.addEventListener('DOMContentLoaded', function () {
@@ -446,189 +459,181 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // c. Add a click event listener to the button
     moveCreatureButton.addEventListener('click', function () {
+        alert("oh!")
         // d. Call the function to move the creature randomly
         moveCreatureRandomly();
-        alert("OH!");
     });
 });
 
-// e. Function to move the creature randomly
+
+
 function moveCreatureRandomly() {
-    // f. Get the initial coordinates of the creature
-    const initialCoordinates = getCreatureCoordinates();
 
-    // g. Generate a random decision number
-    const randomDecisionNumber = generateCreatureRandomDecisionNumber();
 
-    // h. Move the creature based on the random decision number
-    moveCreature(initialCoordinates, randomDecisionNumber);
-}
+    // 1)   find creature element, NOT alexei element.
 
-// Function to find the element representing the creature on the game board
-function findCreatureElement() {
-    // Find all elements with class 'tileOccupant'
-    const tileOccupantElements = document.querySelectorAll('.tileOccupant');
-
-    // Loop through each element
-    for (const element of tileOccupantElements) {
-        // Check if the text content is 'Creature'
-        if (element.textContent.trim() === 'Creature') {
-            // Return the parent element of the tileOccupant element
-            return element.parentElement;
-        }
-    }
-
-    // If no matching element is found, return null
-    return null;
-}
-
-// Function to get the coordinates of the creature
-function getCreatureCoordinates() {
-    const creatureElement = findCreatureElement();
-
-    if (creatureElement) {
-        // Extract the parent tile element from the creature element
-        const tileElement = creatureElement.closest('.tile');
-
-        if (tileElement) {
-            // Extract row and column numbers from the tile class
-            const matchResult = tileElement.className.match(/tile_(\d)_(\d)/);
-
-            if (matchResult) {
-                // Extract row and column numbers from the match result
-                const [, row, column] = matchResult;
-
-                // Convert row and column to numbers
-                const rowNumber = parseInt(row, 10);
-                const columnNumber = parseInt(column, 10);
-
-                return { row: rowNumber, column: columnNumber };
-            } else {
-                console.error("Invalid tile class format");
-                return null;
+function detectCreatureCoordinates() {
+        // Get all tiles
+        const tiles = document.querySelectorAll('.tile');
+    
+        // Iterate through all tiles
+        for (const tile of tiles) {
+            // Check if the tile has the 'creature' class in its occupants
+            const creatureOccupant = tile.querySelector('.tileOccupant.creature');
+            if (creatureOccupant) {
+                // Extract the x and y coordinates from the tile's class
+                const classList = tile.classList;
+                const [x, y] = Array.from(classList).find(className => className.startsWith('tile_')).split('_').slice(1);
+    
+                // Return the coordinates as an object
+                return { x: parseInt(x), y: parseInt(y) };
             }
-        } else {
-            console.error("Tile element not found");
-            return null;
         }
-    } else {
-        console.error("Creature element not found");
+    
+        // If no tile with Creature text is found, return null
         return null;
     }
-}
+    
+    // Call the function after the Creature is spawned (e.g., in your spawnCreature function)
+    document.addEventListener('DOMContentLoaded', function () {
+        alexeiCoordinates = spawnAlexei(); // Store the coordinates
+        
+    
 
-// n. Function to generate a random decision number
-function generateCreatureRandomDecisionNumber() {
-    // o. Generate a random number between 1 and 4 (inclusive)
-    return Math.floor(Math.random() * 4) + 1;
-}
 
-// p. Function to move the creature based on the direction
-function moveCreature(initialCoordinates, direction) {
-    let x, y;
-
-    // q. Loop until a valid position is found
-    do {
-        // r. Get the current x and y coordinates
-        const { row, column } = initialCoordinates;
-
-        // s. Move the creature based on the direction
-        switch (direction) {
-            case 1: // t. Move North
-                y = row - 1;
-                x = column;
-                break;
-            case 2: // u. Move South
-                y = row + 1;
-                x = column;
-                break;
-            case 3: // v. Move West
-                y = row;
-                x = column - 1;
-                break;
-            case 4: // w. Move East
-                y = row;
-                x = column + 1;
-                break;
-            default:
-                // x. Handle the case of an invalid direction
-                console.error("Invalid direction");
-                return;
-        }
-    } while (!isValidPosition(x, y));
-
-    // y. Clear creature text from tiles
-    clearCreatureText();
-
-    // z. Display creature text in the adjacent tile
-    displayCreatureText(x, y);
-}
-
-// aa. Function to check if a position is valid
-function isValidPosition(x, y) {
-    // ab. Check if the coordinates are within the allowed ranges
-    if (x < 1 || x > 7 || y !== 3) {
-        return false;
-    }
-
-    // ac. Check if the coordinates are not on the restricted positions
-    if ((x === 2 && y === 2) || (x === 4 && y === 2) || (x === 6 && y === 2)) {
-        return false;
-    }
-
-    // ad. If all conditions are met, the position is valid
-    return true;
-}
-
-// ae. Function to clear creature text from tiles
-function clearCreatureText() {
-    // af. Find all elements with class 'tileOccupant'
-    const tileOccupantElements = document.querySelectorAll('.tileOccupant');
-
-    // ag. Loop through each element
-    tileOccupantElements.forEach(element => {
-        // ah. Check if the text content is not 'Alexei'
-        if (element.textContent.trim() !== 'Alexei') {
-            // ai. Clear the text content
-            element.textContent = '';
+        // After spawning, call the detectCreatureCoordinates function
+        const creatureCoordinates = detectCreatureCoordinates();
+        if (creatureCoordinates) {
+            const { x, y } = creatureCoordinates;
+            console.log(`Creature is at coordinates: (${x}, ${y})`);
+        } else {
+            console.log('Creature not found.');
         }
     });
-}
 
-// aj. Function to display creature text in a tile
-function displayCreatureText(x, y) {
-    // ak. Form the tile class using the provided x and y values
-    const tileClass = `tile_${x}_${y}`;
+    // 3)   define x and y coordinates as their own variables (not needed. theyre alredy defined. BUT 
+        // POTENTIAL SCOPING ISSUE!!!!!!
 
-    // al. Find the tile element with the specified class
-    const tileElement = document.querySelector(`.${tileClass}`);
+    // 4)   generate random number from 1 to 4
 
-    // am. Check if the tileElement exists
-    if (tileElement) {
-        // an. Find the tileOccupant element inside the tile
-        const tileOccupantElement = tileElement.querySelector('.tileOccupant');
+   
 
-        // ao. Display the text 'Creature' in the tileOccupant element
-        tileOccupantElement.textContent = 'Creature';
-    } else {
-        // ap. Handle the case where the tileElement is not found
-        console.error(`Tile with class ${tileClass} not found.`);
+    function generateRandomNumber() {
+        // Generate a random decimal between 0 (inclusive) and 1 (exclusive)
+        const randomDecimal = Math.random();
+    
+        // Scale the random decimal to be between 1 and 5
+        // Math.floor is used to round down to the nearest integer
+        const randomNumber = Math.floor(randomDecimal * 4) + 1;
+    
+        return randomNumber;
     }
+
+    
+
+    // 5)   define 4 functions, up down left right. each adds or subtracts from values of initial coordinates
+    
+                // Function to move the creature up
+                    function moveCreatureUp(currentX, currentY) {
+                        const updatedY = currentY - 1;
+                        return { updatedX: currentX, updatedY };
+                    }
+
+                    // Function to move the creature down
+                    function moveCreatureDown(currentX, currentY) {
+                        const updatedY = currentY + 1;
+                        return { updatedX: currentX, updatedY };
+                    }
+
+                    // Function to move the creature left
+                    function moveCreatureLeft(currentX, currentY) {
+                        const updatedX = currentX - 1;
+                        return { updatedX, updatedY: currentY };
+                    }
+
+                    // Function to move the creature right
+                    function moveCreatureRight(currentX, currentY) {
+                        const updatedX = currentX + 1;
+                        return { updatedX, updatedY: currentY };
+                    }
+    
+    
+    
+    // 6)   use random number to choose one of the 4 (and in doing so, updating the initial coordinates to the new ones)
+    
+                    // Gotta delcare this outside of the switch bc of scoping
+                    
+                    let newCoordinates;
+                    
+                switch (generateRandomNumber()) {
+                    case 1:
+                        newCoordinates = moveCreatureUp(updatedX, updatedY);
+                        break;
+                    case 2:
+                        newCoordinates = moveCreatureDown(updatedX, updatedY);
+                        break;
+                    case 3:
+                        newCoordinates = moveCreatureLeft(updatedX, updatedY);
+                        break;
+                    case 4:
+                        newCoordinates = moveCreatureRight(updatedX, updatedY);
+                        break;
+                    default:
+                        console.error("Invalid randomNumber.");
+                        return;
+                }
+
+                // Use newCoordinates to update the position
+    placeCreature(newCoordinates.updatedX, newCoordinates.updatedY);
+
+    // 7)   clear Creature text from board and ONLY creature text
+
+            function removeCreatureText(tiles) {
+                for (let i = 0; i < tiles.length; i++) {
+                    const tile = tiles[i];
+                    const text = tile.textContent;
+            
+                    // Check if the text contains "Creature" but NOT "Alexei"
+                    if (text.includes("Creature") && !text.includes("Alexei")) {
+                        // Delete the text from the tile
+                        tile.textContent = "";
+                    }
+                }
+            }
+
+
+    // 8)   retrieve new coordinates and use them to add Creature text to corresponding tile.
+
+    function placeCreature(updatedX, updatedY) {
+        // Create a unique identifier for the tile based on coordinates
+        const tileId = `tile${updatedX}_${updatedY}`;
+    
+        // Find the tile element using the identifier
+        const tileElement = document.getElementById(tileId);
+    
+        // Check if the tile element exists
+        if (tileElement) {
+            // Set the text content of the tile to "Creature"
+            tileElement.querySelector('.tileText').textContent = 'Creature';
+        } else {
+            console.error(`Tile not found for coordinates X: ${updatedX}, Y: ${updatedY}`);
+        }
+    }
+
+    placeCreature(updatedX, updatedY);
+    console.log("creature placed at" + updatedX + updatedY);
+
 }
 
+    
 
 
 
+
+    
 // FUNCTION NEEDS TO BE REPEATABLE
 
         
-    // 3.
-
-    // 4.
-
-    // 5.
-
-    // 6.
 
 
 
