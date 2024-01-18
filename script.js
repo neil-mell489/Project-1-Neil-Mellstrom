@@ -17,7 +17,7 @@ document.querySelector('.test').addEventListener('click', function() {
     //  7. Arrow Event Listeners
     //  8. Creature Random Movement
     //  9. Encounter
-    //  10. -
+    //  10. Task Tracker, Detection and Updater
     //  11. -
     //  12. -
     //  13. -
@@ -281,28 +281,25 @@ document.querySelector('.test').addEventListener('click', function() {
     // UP Listener
     document.querySelector('.arrowUp').addEventListener('click', function() {
         moveAlexei(0, -1);
-        moveCreatureRandomly();
         // changeTurn("Creature")
     });
 
     // LEFT Listener
     document.querySelector('.arrowLeft').addEventListener('click', function() {
         moveAlexei(-1, 0);
-        moveCreatureRandomly();
         // changeTurn("Creature")
     });
 
     // DOWN Listener
     document.querySelector('.arrowDown').addEventListener('click', function() {
         moveAlexei(0, 1);
-        moveCreatureRandomly();
         // changeTurn("Creature")
     });
 
     // RIGHT Listener
     document.querySelector('.arrowRight').addEventListener('click', function() {
         moveAlexei(1, 0);
-        moveCreatureRandomly();
+        
         // changeTurn("Creature")
     });
 
@@ -605,7 +602,60 @@ function runEncounter() {
 
 
 
-// 10. 
+// 10. Task Tracker, Detection and Updater
+
+// let taskList = [
+//     "1 ~ Acquire scientist's notes from Lab.", 
+//     "2 ~ Acquire fire extinguisher from Storage.",
+//     "3 ~ Acquire Captain's notes in his Quarters.",
+//     "4 ~ Restart Engines.",
+//     "5 ~ Pilot vessel from Control room to surface",
+//     "6 ~ Set Reactor to self destruct.",
+//     "7 ~ Escape via Torpedo Bay."
+// ]
+
+function checkTileAndIncrementTask(x, y) {
+    // Define the coordinates for each task
+    const taskCoordinates = [
+        { x: 3, y: 1},
+        { x: 1, y: 3},
+        { x: 1, y: 1},
+        { x: 7, y: 2},
+        { x: 3, y: 2},
+        { x: 2, y: 2},
+        { x: 1, y: 2},
+        // Add coordinates for the rest of the tasks
+    ];
+
+    // Loop through the task coordinates
+    for (let i = 0; i < taskCoordinates.length; i++) {
+        const taskCoord = taskCoordinates[i];
+
+        // Check if Alexei is in the specified tile
+        if (x === taskCoord.x && y === taskCoord.y) {
+            // Check if the visited tiles are in order
+            if (i === currentTaskDisplay) {
+                // Increment the task display
+                currentTaskDisplay++;
+
+                // Update the task list display
+                updateTaskList(currentTaskDisplay);
+
+                // Add any additional actions you want to perform when a task is completed
+
+                // Break the loop after finding the correct tile
+                break;
+            } else {
+                // If the tiles are not visited in order, you can handle it accordingly
+                alert("Visit the tasks in order!");
+            }
+        }
+    }
+}
+
+
+
+
 
 // 11. 
 
