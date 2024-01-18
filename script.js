@@ -439,36 +439,41 @@ document.querySelector('.test').addEventListener('click', function() {
 
 // 13. CREATURE MOVEMENT
 
-// Arrow key press listener for creature movement
-document.addEventListener('keydown', function (event) {
-    // Check if the pressed key is an arrow key
-    if (event.key.startsWith('Arrow')) {
-        event.preventDefault(); // Prevent the default behavior of arrow keys (scrolling)
 
-        // Determine the direction based on the arrow key pressed
+document.querySelector('.testmovecreature').addEventListener('click', function() {
+    // alert("oh!");
+    moveCreatureRandomly();
+});
+
+    
+
+// Function to move Creature Randomly
+function moveCreatureRandomly () {
+    
+        // Determine the direction based on what number has been radnomly selected.
         let dx = 0;
         let dy = 0;
 
-        switch (event.key) {
-            case 'ArrowUp':
+        // Generate a random number between 1 and 4 for mCreature's decision
+        let decisionNumber = Math.floor(Math.random() * 4) + 1;
+
+        switch (decisionNumber) {
+            case 1:
                 dy = -1;
                 break;
-            case 'ArrowDown':
+            case 2:
                 dy = 1;
                 break;
-            case 'ArrowLeft':
+            case 3:
                 dx = -1;
                 break;
-            case 'ArrowRight':
+            case 4:
                 dx = 1;
                 break;
         }
 
         // Move the creature in the determined direction
         moveCreature(dx, dy);
-    }
-});
-
 
 // Function to move the creature based on the given dx and dy
 function moveCreature(dx, dy) {
@@ -524,4 +529,5 @@ function updateCreaturePosition(newX, newY) {
             console.error('Invalid move for creature.');
         }
     }
+}
 }
