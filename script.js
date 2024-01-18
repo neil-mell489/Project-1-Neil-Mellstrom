@@ -16,7 +16,7 @@ document.querySelector('.test').addEventListener('click', function() {
     //  6. Victory and Defeat Alerts
     //  7. Arrow Event Listeners
     //  8. Creature Random Movement
-    //  9. Update Health Displays
+    //  9. Faceoff
     //  10. -
     //  11. -
     //  12. -
@@ -491,51 +491,12 @@ function updateCreaturePosition(newX, newY) {
     }
 }
 
-// 9. UPDATE HEALTH DISPLAYS
+// 9. FACEOFF
 
-    // Function to test player health
-    function updatePlayerHealth(healthValue) {
-        const playerHealthBox = document.querySelector('.player-health-box');
-        clearHealthBox(playerHealthBox);
+    // calculate who gets damaged (player has 75% chance to lose health, Creature has 25%)
+    // update health display accordingly
+    // call functions to repawn creature to random position after faceoff
 
-        for (let i = 1; i <= 5; i++) {
-            const square = document.createElement('div');
-            square.classList.add('health-square');
-            if (i <= healthValue) {
-                square.classList.add('solid-square');
-            } else {
-                square.classList.add('hollow-square');
-            }
-            playerHealthBox.appendChild(square);
-        }
-    }
-
-    // Function to test creature health
-    function updateCreatureHealth(healthValue) {
-        const creatureHealthBox = document.querySelector('.creature-health-box');
-        clearHealthBox(creatureHealthBox);
-
-        for (let i = 1; i <= 5; i++) {
-            const square = document.createElement('div');
-            square.classList.add('health-square');
-            if (i <= healthValue) {
-                square.classList.add('solid-square');
-            } else {
-                square.classList.add('hollow-square');
-            }
-            creatureHealthBox.appendChild(square);
-        }
-    }
-
-    // Function to clear health box
-    function clearHealthBox(healthBox) {
-        healthBox.innerHTML = '';
-    }
-
-
-    // // ADJUST THESE PARAMETERS TO UPDATE HEALTH OF PLAYER OR CREATURE
-    updatePlayerHealth(5);
-    updateCreatureHealth(5);
 
 
 // 10. -
