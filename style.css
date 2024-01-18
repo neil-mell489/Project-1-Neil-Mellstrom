@@ -290,6 +290,7 @@ body {
 
   #devModeLabel {
     margin-right: 10px;
+    color:#00e46b;
   }
 
   .toggleHandle {
@@ -321,4 +322,5 @@ body {
     font-size: 14px;
     font-weight: bold;
     margin-left: 10px;
+    color:#00e46b;
   }
