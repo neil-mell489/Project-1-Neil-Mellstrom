@@ -13,14 +13,14 @@ document.querySelector('.test').addEventListener('click', function() {
     //  3. Task List Array
     //  4. Not sure where to Put this
     //  5. Updating Task List Display
-    //  6. -
-    //  7. Victory and Defeat Alerts
-    //  8. -
-    //  9. -
+    //  6. Victory and Defeat Alerts
+    //  7. Arrow Event Listeners
+    //  8. Creature Random Movement
+    //  9. Update Health Displays
     //  10. -
-    //  11. Arrow Event Listeners
-    //  12. Update Health Displays
-    //  13. Creature Random Movement
+    //  11. -
+    //  12. -
+    //  13. -
     //  14. - 
     //  15. - 
     //  16. - 
@@ -265,9 +265,7 @@ document.querySelector('.test').addEventListener('click', function() {
     }    
     updateTaskList(currentTaskDisplay)
 
-// 6. -
-
-// 7. VICTORY AND DEFEAT ALERTS
+// 6. VICTORY AND DEFEAT ALERTS
             // change to a prompt later with Reset Game button and a Dismiss button
 
     function displayVictoryScreen() {
@@ -278,13 +276,7 @@ document.querySelector('.test').addEventListener('click', function() {
         alert("(Defeat) Undamaged vessel of Zarya Tupolevsky X-1 recovered in Barents Sea. No survivors recovered. Cause unknown.");
     }
 
-// 8. -
-
-// 9. -
-
-// 10. -
-
-// 11. ARROW BUTTON LISTENERS
+// 7. ARROW EVENT LISTENERS
 
     // UP Listener
     document.querySelector('.arrowUp').addEventListener('click', function() {
@@ -390,7 +382,116 @@ document.querySelector('.test').addEventListener('click', function() {
 
 
 
-// 12. UPDATE HEALTH DISPLAYS
+// 8. CREATURE RANDOM MOVEMENT
+
+// ALL YA GOTTA DO IS IMPLEMENT THE RULES
+    // First find out WHY he isnt moving after particular button clicks.
+    // might wanna slip some console logs in some places to track the whole process
+    // THEN, implement your rules.
+        // a. Do not move to a tile that does not exist
+        // b. Do not move to a tile you were just in.
+        // c. If your newly generated coordinates would lead you to break rule 1 or 2: 
+                        // repeat process again automatically until Creature does move.  
+
+
+
+// TEST BUTTON FOR CREATURE MOVEMENT IF THE CLASS NAME DIDN'T GIVE IT AWAY
+document.querySelector('.testmovecreature').addEventListener('click', function() {
+    moveCreatureRandomly();
+});
+
+// Function to move Creature Randomly
+function moveCreatureRandomly() {
+    let moveSuccessful = false;
+
+    // Continue trying to move until a valid move is made
+    while (!moveSuccessful) {
+        // Determine the direction based on what number has been randomly selected.
+        let dx = 0;
+        let dy = 0;
+
+        // Generate a random number between 1 and 4 for creature's decision
+        let decisionNumber = Math.floor(Math.random() * 4) + 1;
+
+        switch (decisionNumber) {
+            case 1:
+                dy = -1;
+                break;
+            case 2:
+                dy = 1;
+                break;
+            case 3:
+                dx = -1;
+                break;
+            case 4:
+                dx = 1;
+                break;
+        }
+
+        // Attempt to move the creature in the determined direction
+        moveSuccessful = moveCreature(dx, dy);
+    }
+}
+
+// Function to move the creature based on the given dx and dy
+function moveCreature(dx, dy) {
+    // Retrieve the current coordinates
+    let currentX = x2;
+    let currentY = y2;
+
+    // Calculate the new coordinates
+    let newX = currentX + dx;
+    let newY = currentY + dy;
+
+    // Check if the move is valid
+    if (isValidMove(newX, newY)) {
+        // Update the creature's position
+        updateCreaturePosition(newX, newY);
+
+        // Return true indicating a successful move
+        return true;
+    } else {
+        // Return false indicating an unsuccessful move
+        return false;
+    }
+}
+
+// Function to check if a move is valid
+function isValidMove(newX, newY) {
+    const forbiddenCoordinates = [[2, 2], [4, 2], [6, 2]];
+    return newX >= 1 && newX <= 7 && newY >= 1 && newY <= 3 &&
+        !forbiddenCoordinates.some(coord => coord[0] === newX && coord[1] === newY);
+}
+
+// Function to update the creature's position
+function updateCreaturePosition(newX, newY) {
+    // Update the UI to reflect the new position
+    const currentTile = document.querySelector(`.tile.tile_${x2}_${y2}`);
+    const newTile = document.querySelector(`.tile.tile_${newX}_${newY}`);
+
+    if (currentTile && newTile) {
+        // Remove the creature from the current tile
+        currentTile.querySelector('.tileOccupant').textContent = '';
+
+        // Update the creature's position in the new tile
+        let tileOccupant = newTile.querySelector('.tileOccupant');
+        if (!tileOccupant) {
+            tileOccupant = document.createElement('span');
+            tileOccupant.classList.add('tileOccupant');
+            newTile.appendChild(tileOccupant);
+        }
+        tileOccupant.textContent = 'Creature';
+
+        // Update the global coordinates
+        x2 = newX;
+        y2 = newY;
+
+        // Log the updated coordinates
+        console.log(`Creature moved to coordinates: (${x2}, ${y2})`);
+    }
+}
+
+// 9. UPDATE HEALTH DISPLAYS
 
     // Function to test player health
     function updatePlayerHealth(healthValue) {
@@ -437,97 +538,12 @@ document.querySelector('.test').addEventListener('click', function() {
     updateCreatureHealth(5);
 
 
-// 13. CREATURE MOVEMENT
+// 10. -
+
+// 11. 
+
+// 12. -
 
 
-document.querySelector('.testmovecreature').addEventListener('click', function() {
-    // alert("oh!");
-    moveCreatureRandomly();
-});
 
-    
 
-// Function to move Creature Randomly
-function moveCreatureRandomly () {
-    
-        // Determine the direction based on what number has been radnomly selected.
-        let dx = 0;
-        let dy = 0;
-
-        // Generate a random number between 1 and 4 for mCreature's decision
-        let decisionNumber = Math.floor(Math.random() * 4) + 1;
-
-        switch (decisionNumber) {
-            case 1:
-                dy = -1;
-                break;
-            case 2:
-                dy = 1;
-                break;
-            case 3:
-                dx = -1;
-                break;
-            case 4:
-                dx = 1;
-                break;
-        }
-
-        // Move the creature in the determined direction
-        moveCreature(dx, dy);
-
-// Function to move the creature based on the given dx and dy
-function moveCreature(dx, dy) {
-    // Retrieve the current coordinates
-    let currentX = x2;
-    let currentY = y2;
-
-    // Calculate the new coordinates
-    let newX = currentX + dx;
-    let newY = currentY + dy;
-
-    // Perform additional checks or actions based on the new coordinates
-
-    // Update the creature's position
-    updateCreaturePosition(newX, newY);
-}
-
-// Function to check if a move is valid
-function isValidMove(newX, newY) {
-    const forbiddenCoordinates = [[2, 2], [4, 2], [6, 2]];
-    return newX >= 1 && newX <= 7 && newY >= 1 && newY <= 3 &&
-        !forbiddenCoordinates.some(coord => coord[0] === newX && coord[1] === newY);
-}
-
-// Function to update the creature's position
-function updateCreaturePosition(newX, newY) {
-    // Update the UI to reflect the new position
-    const currentTile = document.querySelector(`.tile.tile_${x2}_${y2}`);
-    const newTile = document.querySelector(`.tile.tile_${newX}_${newY}`);
-
-    if (currentTile && newTile) {
-        // Remove the creature from the current tile
-        currentTile.querySelector('.tileOccupant').textContent = '';
-
-        // Check if the move is valid
-        if (isValidMove(newX, newY)) {
-            // Update the creature's position in the new tile
-            let tileOccupant = newTile.querySelector('.tileOccupant');
-            if (!tileOccupant) {
-                tileOccupant = document.createElement('span');
-                tileOccupant.classList.add('tileOccupant');
-                newTile.appendChild(tileOccupant);
-            }
-            tileOccupant.textContent = 'Creature';
-
-            // Update the global coordinates
-            x2 = newX;
-            y2 = newY;
-
-            // Log the updated coordinates
-            console.log(`Creature moved to coordinates: (${x2}, ${y2})`);
-        } else {
-            console.error('Invalid move for creature.');
-        }
-    }
-}
-}
