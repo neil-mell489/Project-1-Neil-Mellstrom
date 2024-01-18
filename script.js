@@ -18,7 +18,7 @@ document.querySelector('.test').addEventListener('click', function() {
     //  8. Creature Random Movement
     //  9. Encounter
     //  10. Task Tracker, Detection and Updater
-    //  11. -
+    //  11. Dev Mode Toggle Switch
     //  12. -
     //  13. -
     //  14. - 
@@ -169,6 +169,7 @@ document.querySelector('.test').addEventListener('click', function() {
 
 // 2. RESET BUTTON 
 
+    // clears board
     // spawns player and monster in random tiles
     // Resets Task Display to first and second tasks
     // Resets the linear task tracker to incomplete.
@@ -176,7 +177,124 @@ document.querySelector('.test').addEventListener('click', function() {
     // Resets health for both player and monster to 5/5
     // ...
 
+
+
+
+
     function resetGame() {
+
+
+        // Write Clear Board Function
+        function clearBoard() {
+
+            // Function to hide victory or defeat screen
+            function hideResultScreen(screenType) {
+                // Select the screen element based on the provided type
+                const screenElement = document.querySelector(`.${screenType}-screen`);
+
+                // Remove the screen element if it exists
+                if (screenElement) {
+                    screenElement.remove();
+                }
+
+   
+}           hideResultScreen('victory');
+            hideResultScreen('defeat'); 
+
+        
+            
+
+
+            // Loop through all tiles on the board
+            for (let x = 1; x <= 7; x++) {
+                for (let y = 1; y <= 3; y++) {
+                    // Find the tile element
+                    const tile = document.querySelector(`.tile.tile_${x}_${y}`);
+        
+                    // Check if the tile exists
+                    if (tile) {
+                        // Remove text content for Alexei
+                        const alexeiOccupant = tile.querySelector('.tileOccupant.alexei');
+                        if (alexeiOccupant) {
+                            alexeiOccupant.textContent = '';
+                        }
+        
+                        // Remove text content for the Creature
+                        const creatureOccupant = tile.querySelector('.tileOccupant.creature');
+                        if (creatureOccupant) {
+                            creatureOccupant.textContent = '';
+                        }
+                    }
+                }
+            }
+        }
+
+        // Clear Board
+        clearBoard()
+
+        // Spawns Alexei and Creature in random and different spots
+
+        function generateX1Y1() {
+            let randomx1;
+            let randomy1;
+        
+            const forbiddenCoordinates = [[2, 2], [4, 2], [6, 2]];
+        
+            do {
+                randomx1 = Math.floor(Math.random() * 7) + 1;
+                randomy1 = Math.floor(Math.random() * 3) + 1;
+            } while (forbiddenCoordinates.some(coord => coord[0] === randomx1 && coord[1] === randomy1));
+        
+            return [randomx1, randomy1];
+        }
+        
+        // Function to spawn a character in a tile
+        function spawnCharacter(className, x, y) {
+            const existingCharacter = document.querySelector(`.tile.tile_${x}_${y} .tileOccupant.${className}`);
+            if (existingCharacter) {
+                return spawnCharacter(className, ...generateX1Y1());
+            }
+        
+            const targetTile = document.querySelector(`.tile.tile_${x}_${y}`);
+            let tileOccupant = targetTile.querySelector('.tileOccupant');
+            
+            if (!tileOccupant) {
+                tileOccupant = document.createElement('span');
+                tileOccupant.classList.add('tileOccupant');
+                targetTile.appendChild(tileOccupant);
+            }
+        
+            tileOccupant.textContent = className;
+            tileOccupant.classList.add(className);
+        
+            console.log(`${className} spawned at coordinates: (${x}, ${y})`);
+        
+            return { x, y };
+        }
+        
+        // Function to spawn Alexei in a random tile
+        function spawnAlexei() {
+            [x1, y1] = spawnCharacter('alexei', ...generateX1Y1());
+            return { x: x1, y: y1 };
+        }
+        
+        // Function to spawn Creature in a random tile
+        function spawnCreature() {
+            [x2, y2] = spawnCharacter('creature', ...generateX1Y1());
+            return { x: x2, y: y2 };
+        }
+        
+        // Call the spawnAlexei and spawnCreature functions to execute the code
+        let alexeiCoordinates;
+        function resetGame() {
+            alexeiCoordinates = spawnAlexei();
+            spawnCreature();
+        
+        }
+        
+        // Set Health to Full
+
+        let health = 5
 
         // Reset Task Display
         
@@ -189,19 +307,6 @@ document.querySelector('.test').addEventListener('click', function() {
         let [randomX2, randomY2] = generateX1Y1();
         let randomPlayerPosition = [randomX1, randomY1];
         let randomMonsterPosition = [randomX2, randomY2];
-
-
-        // Variable to track the current turn (initially set to "player")
-        let currentTurn = "player";
-
-                                    // // Call the function to get the initial random numbers
-                                    // const randomNumbers = twoRandomNumbers();
-
-        // RESET PLAYER HEALTH AND MONSTER HEALTH (doesnt work right now bc of scoping issue)
-        // updatePlayerHealth(5);
-        // updateCreatureHealth(5);
-
-
                 
         // CONTINUE RESET FUNCTION RIGHT HERE
 
@@ -259,22 +364,57 @@ document.querySelector('.test').addEventListener('click', function() {
     
             let currentTask = document.getElementById("task-list-current");
             currentTask.textContent = "Current Task:\n" + taskList[currentTaskIndex];
-        } else {
-            console.error("Invalid currentTaskDisplay value.");
-        }
+        } 
     }    
     updateTaskList(currentTaskDisplay)
 
 // 6. VICTORY AND DEFEAT ALERTS
             // change to a prompt later with Reset Game button and a Dismiss button
 
-    function displayVictoryScreen() {
-        alert("(Victory) Lieutenant Helmsman Alexei Yarovoy recovered from the Barents Sea among wreckage of the Zarya Tupolevsky X-1. No evidence of animal reported by Helmsman.");
-    }
+    // function displayVictoryScreen() {
+    //     alert("(Victory) Lieutenant Helmsman Alexei Yarovoy recovered from the Barents Sea among wreckage of the Zarya Tupolevsky X-1. No evidence of animal reported by Helmsman.");
+    // }
 
-    function displayDefeatScreen() {
-        alert("(Defeat) Undamaged vessel of Zarya Tupolevsky X-1 recovered in Barents Sea. No survivors recovered. Cause unknown.");
-    }
+    // Function to display victory screen
+function displayVictoryScreen() {
+    // Create a div element for the victory screen
+    const victoryScreen = document.createElement('div');
+    victoryScreen.classList.add('victory-screen');
+
+    // Create content for the victory screen
+    const content = document.createElement('div');
+    content.innerHTML = `
+        <h1 style="font-size: 2em;">VICTORY</h1>
+        <p>Lieutenant Helmsman Alexei Yarovoy recovered from the Barents Sea among wreckage of the Zarya Tupolevsky X-1. No evidence of animal reported by Helmsman. 10-10-1982</p>
+        <p>Helmsman insisted on adding quote to record:</p>
+        <blockquote>Very often, all the activity of the human mind is directed not in revealing the truth, but in hiding the truth.<br>~Leo Tolstoy</blockquote>
+    `;
+
+    // Append content to the victory screen
+    victoryScreen.appendChild(content);
+
+    // Create a reset button
+    const victoryResetButton = document.createElement('button');
+    victoryResetButton.innerText = 'Reset Game';
+    victoryResetButton.classList.add('resetbtn');
+    victoryResetButton.addEventListener('click', resetGame);
+
+    // Append the reset button to the victory screen
+    victoryScreen.appendChild(victoryResetButton);
+
+    // Append the victory screen to the document body
+    document.body.appendChild(victoryScreen);
+}
+
+
+    // function displayDefeatScreen() {
+    //     alert("(Defeat) Undamaged vessel of Zarya Tupolevsky X-1 recovered in Barents Sea. No survivors recovered. Cause unknown.");
+    // }
+
+
+
+
+
 
 // 7. ARROW EVENT LISTENERS
 
@@ -379,6 +519,9 @@ document.querySelector('.test').addEventListener('click', function() {
 
             // Log the updated coordinates
             console.log(`Alexei moved to coordinates: (${x1}, ${y1})`);
+
+            // Check for Task Tile
+            checkTileAndIncrementTask(x1, y1)
 
             // Check for Encoutner with Creature
             detectEncounter();
@@ -498,8 +641,10 @@ function updateCreaturePosition(newX, newY) {
 
 // 9. Health Displays
 
-updateAlexeiHealth(5);
-updateCreatureHealth(5);
+let health;
+
+updateAlexeiHealth(health);
+updateCreatureHealth(health);
 
 
 // Function to update Alexei's health display
@@ -614,6 +759,8 @@ function runEncounter() {
 //     "7 ~ Escape via Torpedo Bay."
 // ]
 
+
+
 function checkTileAndIncrementTask(x, y) {
     // Define the coordinates for each task
     const taskCoordinates = [
@@ -622,8 +769,9 @@ function checkTileAndIncrementTask(x, y) {
         { x: 1, y: 1},
         { x: 7, y: 2},
         { x: 3, y: 2},
-        { x: 2, y: 2},
+        { x: 5, y: 2},
         { x: 1, y: 2},
+        { x: 0, y: 0}
         // Add coordinates for the rest of the tasks
     ];
 
@@ -633,6 +781,64 @@ function checkTileAndIncrementTask(x, y) {
 
         // Check if Alexei is in the specified tile
         if (x === taskCoord.x && y === taskCoord.y) {
+
+            if(x === 1 && y === 2 && currentTaskDisplay >= 6) {
+                displayVictoryScreen()
+            }
+            
+            // Function to check for victory condition
+            function checkVictoryCondition(x, y) {
+                // Check if Alexei is in the last tile (x: 1, y: 2) and currentTaskDisplay is equal to 7
+                return x === 1 && y === 2 && currentTaskDisplay === 6;
+            }
+
+
+        // Function to display defeat screen
+        function displayDefeatScreen() {
+        // Create a div element for the defeat screen
+        const defeatScreen = document.createElement('div');
+        defeatScreen.classList.add('defeat-screen');
+
+        // Create content for the defeat screen
+        const content = document.createElement('div');
+        content.innerHTML = `
+            <p>(Defeat) Undamaged vessel of Zarya Tupolevsky X-1 recovered in Barents Sea. No survivors recovered. Cause unknown. Investigation concluded. 10-10-1982</p>
+        `;
+
+        // Append content to the defeat screen
+        defeatScreen.appendChild(content);
+
+        // Append the defeat screen to the document body
+        document.body.appendChild(defeatScreen);
+
+        // Create a reset button
+        const resetButton = document.createElement('button');
+        resetButton.innerText = 'Reset Game';
+        resetButton.classList.add('resetbtn');
+        resetButton.addEventListener('click', resetGame);
+
+        // Append the reset button to the defeat screen
+        document.querySelector('.defeat-screen').appendChild(resetButton);
+
+        
+    }
+
+
+            // Function to check for defeat condition
+            function checkDefeatCondition() {
+                if(health = 0) {
+                    displayDefeatScreen();
+                }
+            }
+            
+            // Function to display victory alert
+            function displayVictoryAlert() {
+                alert("VICTORY");
+
+                // You can add additional actions or reset the game after victory
+            }
+
+            
             // Check if the visited tiles are in order
             if (i === currentTaskDisplay) {
                 // Increment the task display
@@ -641,13 +847,14 @@ function checkTileAndIncrementTask(x, y) {
                 // Update the task list display
                 updateTaskList(currentTaskDisplay);
 
-                // Add any additional actions you want to perform when a task is completed
+                console.log(currentTaskDisplay);
+
 
                 // Break the loop after finding the correct tile
                 break;
-            } else {
-                // If the tiles are not visited in order, you can handle it accordingly
-                alert("Visit the tasks in order!");
+
+            
+            
             }
         }
     }
@@ -657,7 +864,35 @@ function checkTileAndIncrementTask(x, y) {
 
 
 
-// 11. 
+// 11. DEV MODE TOGGLE SWITCH
+
+let devMode = false;
+
+function toggleDevMode() {
+  devMode = !devMode;
+  updateToggleHandle();
+  updateButtonVisibility();
+  updateDevModeIndicator();
+}
+
+function updateToggleHandle() {
+  const toggleHandle = document.querySelector('.toggleHandle');
+  toggleHandle.classList.toggle('on', devMode);
+}
+
+function updateButtonVisibility() {
+  const moveCreatureBtn = document.querySelector('.testmovecreature');
+  const testBtn = document.querySelector('.test');
+
+  moveCreatureBtn.style.display = devMode ? 'inline-block' : 'none';
+  testBtn.style.display = devMode ? 'inline-block' : 'none';
+}
+
+function updateDevModeIndicator() {
+  const indicator = document.getElementById('devModeIndicator');
+  indicator.textContent = devMode ? 'ON' : 'OFF';
+}
+
 
 // 12. -
 

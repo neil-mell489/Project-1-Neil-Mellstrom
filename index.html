@@ -172,7 +172,7 @@
     <div class="footer">
         <!-- Rules Dropdown Section -->
         <div class="dropdown rightbottombtn">
-            <button class="dropbtn">RULES</button>
+            <button class="dropbtn" class="button">RULES</button>
             <div class="dropdown-content">
                 <!-- Add your rules content here -->
             </div>
@@ -180,20 +180,26 @@
 
         <!-- Reset Button Section -->
         <div class="reset-btn">
-            <button class="resetbtn">RESET</button>
+            <button class="resetbtn" class="button">RESET</button>
         </div>
 
         <!-- Classified Info Dropdown Section -->
         <div class="dropdown leftbottombtn">
-            <button class="dropbtn">CLASSIFIED INFO</button>
+            <button class="dropbtn" class="button">CLASSIFIED INFO</button>
             <div class="dropdown-content">
                 <!-- Add your classified info content here -->
             </div>
         </div>
 
 
-        <button class="testmovecreature">MOVE CREATURE</button>
+        <button class="testmovecreature" >MOVE CREATURE</button>
         <button class="test">Test</button>
+
+        <div id="devModeContainer" onclick="toggleDevMode()">
+            <span id="devModeLabel">Dev Mode</span>
+            <div class="toggleHandle"></div>
+            <div id="devModeIndicator"></div>
+          </div>
     </div>
 
 </body>
