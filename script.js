@@ -16,7 +16,7 @@ document.querySelector('.test').addEventListener('click', function() {
     //  6. Victory and Defeat Alerts
     //  7. Arrow Event Listeners
     //  8. Creature Random Movement
-    //  9. Faceoff
+    //  9. Encounter
     //  10. -
     //  11. -
     //  12. -
@@ -49,7 +49,7 @@ document.querySelector('.test').addEventListener('click', function() {
 
 // ----------------------------------------------------------
 
-    // RANDOM PLAYER COORDINATES FOR INITIAL SPAWN
+    // Random Alexei Coordinates for Initial Spawn
 
     // Generate a random X value and Y value for Player's spawn coordinates
     function generateX1Y1() {
@@ -70,7 +70,7 @@ document.querySelector('.test').addEventListener('click', function() {
         return [randomx1, randomy1];
     }
 
-    // SPAWN ALEXEI IN TILE
+    // Spawn Alexei in Tile
     function spawnAlexei() {
         // Retrieve and define coordinates using the generateX1Y1 function
         [x1, y1] = generateX1Y1();
@@ -281,30 +281,35 @@ document.querySelector('.test').addEventListener('click', function() {
     // UP Listener
     document.querySelector('.arrowUp').addEventListener('click', function() {
         moveAlexei(0, -1);
+        moveCreatureRandomly();
         // changeTurn("Creature")
     });
 
     // LEFT Listener
     document.querySelector('.arrowLeft').addEventListener('click', function() {
         moveAlexei(-1, 0);
+        moveCreatureRandomly();
         // changeTurn("Creature")
     });
 
     // DOWN Listener
     document.querySelector('.arrowDown').addEventListener('click', function() {
         moveAlexei(0, 1);
+        moveCreatureRandomly();
         // changeTurn("Creature")
     });
 
     // RIGHT Listener
     document.querySelector('.arrowRight').addEventListener('click', function() {
         moveAlexei(1, 0);
+        moveCreatureRandomly();
         // changeTurn("Creature")
     });
 
 
     // Arrow key press listener
     document.addEventListener('keydown', function (event) {
+        moveCreatureRandomly();
         // Check if the pressed key is an arrow key
         if (event.key.startsWith('Arrow')) {
             event.preventDefault(); // Prevent the default behavior of arrow keys (scrolling)
@@ -377,6 +382,9 @@ document.querySelector('.test').addEventListener('click', function() {
 
             // Log the updated coordinates
             console.log(`Alexei moved to coordinates: (${x1}, ${y1})`);
+
+            // Check for Encoutner with Creature
+            detectEncounter();
         }
     }
 
@@ -491,15 +499,113 @@ function updateCreaturePosition(newX, newY) {
     }
 }
 
-// 9. FACEOFF
+// 9. Health Displays
+
+updateAlexeiHealth(5);
+updateCreatureHealth(5);
+
+
+// Function to update Alexei's health display
+function updateAlexeiHealth(health) {
+    // Assuming there is an HTML element with the class "player-health-box" for Alexei's health display
+    const healthBox = document.querySelector(".player-health-box");
+
+    // Clear previous content
+    healthBox.innerHTML = '';
+
+    // Add health squares dynamically
+    for (let i = 0; i < health; i++) {
+        const square = document.createElement('div');
+        square.classList.add('health-square', 'solid-square'); // Add 'solid-square' class for solid squares
+        square.id = `player-health-square-${i + 1}`;
+        healthBox.appendChild(square);
+    }
+
+    // Add empty squares for remaining health
+    for (let i = health; i < 5; i++) {
+        const square = document.createElement('div');
+        square.classList.add('health-square', 'empty', 'hollow-square'); // Add 'hollow-square' class for empty squares
+        square.id = `player-health-square-${i + 1}`;
+        healthBox.appendChild(square);
+    }
+}
+
+// Function to update Creature's health display
+function updateCreatureHealth(health) {
+    // Assuming there is an HTML element with the class "creature-health-box" for Creature's health display
+    const healthBox = document.querySelector(".creature-health-box");
+
+    // Clear previous content
+    healthBox.innerHTML = '';
+
+    // Add health squares dynamically
+    for (let i = 0; i < health; i++) {
+        const square = document.createElement('div');
+        square.classList.add('health-square', 'solid-square'); // Add 'solid-square' class for solid squares
+        square.id = `creature-health-square-${i + 1}`;
+        healthBox.appendChild(square);
+    }
+
+    // Add empty squares for remaining health
+    for (let i = health; i < 5; i++) {
+        const square = document.createElement('div');
+        square.classList.add('health-square', 'empty', 'hollow-square'); // Add 'hollow-square' class for empty squares
+        square.id = `creature-health-square-${i + 1}`;
+        healthBox.appendChild(square);
+    }
+}
+
+
+// 10.  ENCOUNTER
+
+
 
     // calculate who gets damaged (player has 75% chance to lose health, Creature has 25%)
     // update health display accordingly
     // call functions to repawn creature to random position after f
 
+   // Function to detect encounter between Alexei and Creature
+function detectEncounter() {
+    if (x1 === x2 && y1 === y2) {
+        alert("WHERED YA COME FROM");
+        runEncounter();
+    }
+}
+
+// Function to run the encounter and update health
+function runEncounter() {
+    // Set the probabilities for player and creature
+    const playerProbability = 0.75; // 75% chance for the player
+    const creatureProbability = 0.25; // 25% chance for the creature
+
+    // Generate a random number between 0 and 1
+    const randomValue = Math.random();
+
+    // Initialize variables to track whether the player and creature are damaged
+    let playerDamaged = false;
+    let creatureDamaged = false;
+
+    // Check if the encounter results in the player losing health
+    if (randomValue <= playerProbability) {
+        // Player loses 1 health
+        updateAlexeiHealth(-1);
+        playerDamaged = true;
+        console.log("Player lost 1 health");
+    } else {
+        // Creature loses 1 health (since the player didn't get damaged)
+        updateCreatureHealth(-1);
+        creatureDamaged = true;
+        console.log("Creature lost 1 health");
+    }
+}
 
 
-// 10. -
+
+
+
+
+
+// 10. 
 
 // 11. 
 
