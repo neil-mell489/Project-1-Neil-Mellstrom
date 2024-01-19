@@ -163,9 +163,15 @@ document.querySelector('.test').addEventListener('click', function() {
         let alexeiCoordinates; // Declare a variable to store Alexei's coordinates
 
         document.addEventListener('DOMContentLoaded', function () {
+
+            // SPLASH SCREEN WITH LORE and RULES. 
+                // Same text that will go in the dropdown buttons, RULES and CLASSIFIED INFO
+
             alexeiCoordinates = spawnAlexei(); // Store the coordinates
             spawnCreature();
         });
+
+
 
 // 2. RESET BUTTON 
 
@@ -178,10 +184,11 @@ document.querySelector('.test').addEventListener('click', function() {
     // ...
 
 
-
-
-
     function resetGame() {
+
+
+        
+
 
 
         // Write Clear Board Function
@@ -272,25 +279,6 @@ document.querySelector('.test').addEventListener('click', function() {
             return { x, y };
         }
         
-        // Function to spawn Alexei in a random tile
-        function spawnAlexei() {
-            [x1, y1] = spawnCharacter('alexei', ...generateX1Y1());
-            return { x: x1, y: y1 };
-        }
-        
-        // Function to spawn Creature in a random tile
-        function spawnCreature() {
-            [x2, y2] = spawnCharacter('creature', ...generateX1Y1());
-            return { x: x2, y: y2 };
-        }
-        
-        // Call the spawnAlexei and spawnCreature functions to execute the code
-        let alexeiCoordinates;
-        function resetGame() {
-            alexeiCoordinates = spawnAlexei();
-            spawnCreature();
-        
-        }
         
         // Set Health to Full
 
@@ -307,7 +295,32 @@ document.querySelector('.test').addEventListener('click', function() {
         let [randomX2, randomY2] = generateX1Y1();
         let randomPlayerPosition = [randomX1, randomY1];
         let randomMonsterPosition = [randomX2, randomY2];
+        
+        // Call the spawnAlexei and spawnCreature functions to execute the code
+        let alexeiCoordinates;
+        function resetGame() {
+            alexeiCoordinates = spawnAlexei();
+            spawnCreature();
+        }
+
+
+                        // Function to spawn Alexei in a random tile
+                function spawnAlexei() {
+                    clearBoard()
+                    [x1, y1] = spawnCharacter('alexei', ...generateX1Y1());
+                    return { x: x1, y: y1 };
+                }
                 
+                // Function to spawn Creature in a random tile
+                function spawnCreature() {
+                    clearBoard()
+                    [x2, y2] = spawnCharacter('creature', ...generateX1Y1());
+                    return { x: x2, y: y2 };
+                }
+
+
+
+
         // CONTINUE RESET FUNCTION RIGHT HERE
 
     }
@@ -318,6 +331,7 @@ document.querySelector('.test').addEventListener('click', function() {
         resetButton.addEventListener('click', function() {
             // Call the resetGame function when the reset button is clicked
             resetGame();
+            alert("reset clicked")
         });
 
 // 3. TASK LIST ARRAY

@@ -162,6 +162,14 @@ body {
     padding: 10px;
 }
 
+.container{
+ display:flex;
+}
+
+.button {
+    justify-content: space-evenly;
+}
+
 /* Individual button styles */
 .resetbtn {
     background-color: #444;
