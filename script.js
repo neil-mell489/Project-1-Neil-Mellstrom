@@ -36,19 +36,9 @@ document.querySelector('.test').addEventListener('click', function() {
     let [randomX2, randomY2] = generateX1Y1();
     let randomPlayerPosition = [randomX1, randomY1];
     let randomMonsterPosition = [randomX2, randomY2];
-        
-
 
 // 1. GAME SETUP (Initial)
 
-    // Spawns player and monster in random tiles for their initial positions. 
-    // Defines linear task tracker         (make sure linear task tracker STARTS as 0% complete)
-    // Defines Task List Display            (also make sure it STARTS with the beginning tasks)
-    // Defines Player and Monster Health at full (same thang)
-    // Defines current turn as players turn
-    // ...
-
-// ----------------------------------------------------------
 
     // Random Alexei Coordinates for Initial Spawn
 
@@ -170,8 +160,7 @@ document.querySelector('.test').addEventListener('click', function() {
 
             alexeiCoordinates = spawnAlexei(); // Store the coordinates
             spawnCreature();
-        });
-
+    });
 
 
 // 2. RESET BUTTON 
@@ -184,291 +173,8 @@ document.querySelector('.test').addEventListener('click', function() {
     // Resets health for both player and monster to 5/5
     // ...
 
-
     function resetGame() {
     alert("reset clicked")
-
-    updateTaskList(0)
-
-    let x1, y1;
-    let x2, y2;
-    let previousX2, previousY2; 
-    // let creatureSpawned = false;
-    // Creature will only spawn initially once, and any attempts to spawn twice return NULL (I hope)
-    
-
-    // Random Alexei Coordinates for Initial Spawn
-
-    // Generate a random X value and Y value for Player's spawn coordinates
-    function generateX1Y1() {
-        let randomx1;
-        let randomy1;
-
-        const forbiddenCoordinates = [[2, 2], [4, 2], [6, 2]];
-
-        do {
-            // Generate the first random number in the range [1, 7]
-            randomx1 = Math.floor(Math.random() * 7) + 1;
-
-            // Generate the second random number in the range [1, 3]
-            randomy1 = Math.floor(Math.random() * 3) + 1;
-        } while (forbiddenCoordinates.some(coord => coord[0] === randomx1 && coord[1] === randomy1));
-
-        // Return an array with the generated values
-        return [randomx1, randomy1];
-    }
-
-    // Spawn Alexei in Tile
-    function spawnAlexei() {
-        // Retrieve and define coordinates using the generateX1Y1 function
-        [x1, y1] = generateX1Y1();
-
-        // Remove existing Alexei from any tile
-        const existingAlexei = document.querySelector('.tileOccupant.alexei');
-        if (existingAlexei) {
-            existingAlexei.textContent = '';
-        }
-
-        // Find the target tile with appropriate x1 and y1
-        const targetTile1 = document.querySelector(`.tile.tile_${x1}_${y1}`);
-
-        if (targetTile1) {
-            // Update the text in the target tile
-            let tileOccupant = targetTile1.querySelector('.tileOccupant');
-            if (tileOccupant) {
-                tileOccupant.textContent = 'Alexei';
-                tileOccupant.classList.add('alexei'); // Add a class to identify Alexei
-            }
-        }
-
-        console.log(`Alexei FIRST spawned at coordinates: (${x1}, ${y1})`);
-
-        let tileOccupant = targetTile1.querySelector('.tileOccupant');
-
-        if (!tileOccupant) {
-            tileOccupant = document.createElement('span');
-            tileOccupant.classList.add('tileOccupant');
-            targetTile1.appendChild(tileOccupant);
-        }
-        tileOccupant.textContent = 'Alexei';
-
-        // Log visibility
-        console.log('Is Alexei visible?', tileOccupant.offsetWidth > 0);
-
-        // Return the coordinates for later use
-        return { x: x1, y: y1 };
-    }
-
-    // SPAWN CREATURE IN TILE
-    function spawnCreature() {
-        // Retrieve and define coordinates using the generateX1Y1 function
-        [x2, y2] = generateX1Y1();  // Use the global x2 and y2 variables
-
-        // Check if Alexei is present in the target tile
-        const existingAlexei = document.querySelector(`.tile.tile_${x2}_${y2} .tileOccupant.alexei`);
-        if (existingAlexei) {
-            // If Alexei is present, rerun the spawnCreature function
-            return spawnCreature();
-        }
-
-        // Check if Creature is present in the target tile
-        const existingCreature = document.querySelector(`.tile.tile_${x2}_${y2} .tileOccupant.creature`);
-        if (existingCreature) {
-            // If Creature is present, rerun the spawnCreature function
-            return spawnCreature();
-        }
-
-        // Remove existing Creature from any tile
-            const existingCreatureTiles = document.querySelectorAll(`.tileOccupant.creature`);
-            existingCreatureTiles.forEach(tile => {
-                tile.textContent = '';
-            });
-
-        // Find the target tile with appropriate x2 and y2
-        const targetTile2 = document.querySelector(`.tile.tile_${x2}_${y2}`);
-
-        let tileOccupant = targetTile2.querySelector('.tileOccupant');
-        if (!tileOccupant) {
-            tileOccupant = document.createElement('span');
-            tileOccupant.classList.add('tileOccupant');
-            targetTile2.appendChild(tileOccupant);
-        }
-
-        tileOccupant.textContent = 'Creature';
-        tileOccupant.classList.add('creature'); // Add a class to identify the Creature
-
-        // Log visibility
-        console.log('Is Creature visible?', tileOccupant.offsetWidth > 0);
-
-        console.log(`Creature FIRST spawned at coordinates: (${x2}, ${y2})`);
-
-        // Return the coordinates for later use
-        return { x: x2, y: y2 };
-    }
-
-    // Call the spawnAlexei and spawnCreature functions to execute the code
-
-        
-
-        document.addEventListener('DOMContentLoaded', function () {
-
-            // SPLASH SCREEN WITH LORE and RULES. 
-                // Same text that will go in the dropdown buttons, RULES and CLASSIFIED INFO
-
-            alexeiCoordinates = spawnAlexei(); // Store the coordinates
-            spawnCreature();
-        });
-
-
-
-
-
-    
-
-
-        
-
-
-
-        // Write Clear Board Function
-        function clearBoard() {
-
-            // Function to hide victory or defeat screen
-            function hideResultScreen(screenType) {
-                // Select the screen element based on the provided type
-                const screenElement = document.querySelector(`.${screenType}-screen`);
-
-
-
-                // Remove the screen element if it exists
-                if (screenElement) {
-                    screenElement.remove();
-                }
-
-                
-}           hideResultScreen('victory');
-            hideResultScreen('defeat'); 
-
-
-            // Loop through all tiles on the board
-            for (let x = 1; x <= 7; x++) {
-                for (let y = 1; y <= 3; y++) {
-                    // Find the tile element
-                    const tile = document.querySelector(`.tile.tile_${x}_${y}`);
-        
-                    // Check if the tile exists
-                    if (tile) {
-                        // Remove text content for Alexei
-                        const alexeiOccupant = tile.querySelector('.tileOccupant.alexei');
-                        if (alexeiOccupant) {
-                            alexeiOccupant.textContent = '';
-                        }
-        
-                        // Remove text content for the Creature
-                        const creatureOccupant = tile.querySelector('.tileOccupant.creature');
-                        if (creatureOccupant) {
-                            creatureOccupant.textContent = '';
-                        }
-                    }
-                }
-            }
-        }
-
-        // Clear Board
-        clearBoard()
-
-        // Spawns Alexei and Creature in random and different spots
-
-        function generateX1Y1() {
-            let randomx1;
-            let randomy1;
-        
-            const forbiddenCoordinates = [[2, 2], [4, 2], [6, 2]];
-        
-            do {
-                randomx1 = Math.floor(Math.random() * 7) + 1;
-                randomy1 = Math.floor(Math.random() * 3) + 1;
-            } while (forbiddenCoordinates.some(coord => coord[0] === randomx1 && coord[1] === randomy1));
-        
-            return [randomx1, randomy1];
-        }
-        
-        // Function to spawn a character in a tile
-        function spawnCharacter(className, x, y) {
-            const existingCharacter = document.querySelector(`.tile.tile_${x}_${y} .tileOccupant.${className}`);
-            if (existingCharacter) {
-                return spawnCharacter(className, ...generateX1Y1());
-            }
-        
-            const targetTile = document.querySelector(`.tile.tile_${x}_${y}`);
-            let tileOccupant = targetTile.querySelector('.tileOccupant');
-            
-            if (!tileOccupant) {
-                tileOccupant = document.createElement('span');
-                tileOccupant.classList.add('tileOccupant');
-                targetTile.appendChild(tileOccupant);
-            }
-        
-            tileOccupant.textContent = className;
-            tileOccupant.classList.add(className);
-        
-            console.log(`${className} spawned at coordinates: (${x}, ${y})`);
-        
-            return { x, y };
-        }
-        
-        
-        // Set Health to Full
-
-        let health = 5
-
-        
-        
-        
-
-        // Variables to store random positions for the player
-                // (Notice how the two values are defined and stored together in an array for the player and the monster)
-        
-        let [randomX1, randomY1] = generateX1Y1();
-        let [randomX2, randomY2] = generateX1Y1();
-        let randomPlayerPosition = [randomX1, randomY1];
-        let randomMonsterPosition = [randomX2, randomY2];
-        
-        // Call the spawnAlexei and spawnCreature functions to execute the code
-        let alexeiCoordinates;
-        function resetGame() {
-            alexeiCoordinates = spawnAlexei();
-            spawnCreature();
-
-          // Reset Task Display
-          resetTaskList()
-
-        let [randomX1, randomY1] = generateX1Y1();
-        let [randomX2, randomY2] = generateX1Y1();
-        let randomPlayerPosition = [randomX1, randomY1];
-        let randomMonsterPosition = [randomX2, randomY2];
-        }
-
-
-                        // Function to spawn Alexei in a random tile
-                function spawnAlexei() {
-                    clearBoard()
-                    [x1, y1] = spawnCharacter('alexei', ...generateX1Y1());
-                    return { x: x1, y: y1 };
-                }
-                
-                // Function to spawn Creature in a random tile
-                function spawnCreature() {
-                    clearBoard()
-                    [x2, y2] = spawnCharacter('creature', ...generateX1Y1());
-                    return { x: x2, y: y2 };
-                }
-
-
-
-
-        // CONTINUE RESET FUNCTION RIGHT HERE
-
     }
 
     // RESET BUTTON LISTENER
@@ -483,10 +189,7 @@ document.querySelector('.test').addEventListener('click', function() {
 
 // 4. -
 
- 
-
 // 5. WRITING UPDATING TASK LIST DISPLAY
-
 
 // Task List Array
 let taskList = [
@@ -499,8 +202,6 @@ let taskList = [
     "7 ~ Escape via Torpedo Bay."
 ]
 
-
-
 function updateTaskList() {
     let nextTask = document.getElementById("task-list-next");
     nextTask.textContent = "Next Task:\n" + taskList[1];
@@ -509,12 +210,9 @@ function updateTaskList() {
     currentTask.textContent = "Current Task:\n" + taskList[0];
 }
 
-
     // THIS LINE BELOW IS WHAT MAKES THE TASK LIST DISPLAY UPDPATE. CHANGE THE NUMBER, UPDATE TASK LIST DISPLAY. EASY!
     let currentTaskDisplay = 0; // Set the current task display index
                 // ^^^^^^^^^^when currentTaskDisplay equals 0, that's your starting display. 1 is next. then 2,3,4,etc
-
-
 
     function updateTaskList(currentTaskDisplay) {
         // Validate the input index
@@ -567,6 +265,16 @@ function updateTaskList() {
     document.body.appendChild(victoryScreen);
 }
 
+    // Detect and Display Defeat 
+
+    function detectDefeat() {
+        if (x1 === x2 && y1 === y2) 
+            displayDefeatScreen()
+    }
+
+    
+
+
 // 7. ARROW EVENT LISTENERS
 
     // UP Listener
@@ -593,7 +301,6 @@ function updateTaskList() {
         
         
     });
-
 
     // Arrow key press listener
     document.addEventListener('keydown', function (event) {
@@ -624,11 +331,12 @@ function updateTaskList() {
 
             // Move Alexei in the determined direction
             moveAlexei(dx, dy);
+            
+            // Check for Defeat Condition after each move.
+            detectDefeat();
         }
 
     });
-
-
 
     // Function to move Alexei based on the given dx and dy
     function moveAlexei(dx, dy) {
@@ -682,17 +390,6 @@ function updateTaskList() {
 
 // 8. CREATURE RANDOM MOVEMENT
 
-// ALL YA GOTTA DO IS IMPLEMENT THE RULES
-    // First find out WHY he isnt moving after particular button clicks.
-    // might wanna slip some console logs in some places to track the whole process
-    // THEN, implement your rules.
-        // a. Do not move to a tile that does not exist
-        // b. Do not move to a tile you were just in.
-        // c. If your newly generated coordinates would lead you to break rule 1 or 2: 
-                        // repeat process again automatically until Creature does move.  
-
-
-
 // TEST BUTTON FOR CREATURE MOVEMENT IF THE CLASS NAME DIDN'T GIVE IT AWAY
 document.querySelector('.testmovecreature').addEventListener('click', function() {
     moveCreatureRandomly();
@@ -728,6 +425,7 @@ function moveCreatureRandomly() {
 
         // Attempt to move the creature in the determined direction
         moveSuccessful = moveCreature(dx, dy);
+        
     }
 }
 
@@ -753,6 +451,36 @@ function moveCreature(dx, dy) {
         return false;
     }
 }
+
+        // Function to display defeat screen
+        function displayDefeatScreen() {
+            // Create a div element for the defeat screen
+            const defeatScreen = document.createElement('div');
+            defeatScreen.classList.add('defeat-screen');
+    
+            // Create content for the defeat screen
+            const content = document.createElement('div');
+            content.innerHTML = `
+                <p>(Defeat) Undamaged vessel of Zarya Tupolevsky X-1 recovered in Barents Sea. No survivors recovered. Cause unknown. Investigation concluded. 10-10-1982</p>
+            `;
+    
+            // Append content to the defeat screen
+            defeatScreen.appendChild(content);
+    
+            // Append the defeat screen to the document body
+            document.body.appendChild(defeatScreen);
+    
+            // Create a reset button
+            const resetButton = document.createElement('button');
+            resetButton.innerText = 'Reset Game';
+            resetButton.classList.add('resetbtn');
+            resetButton.addEventListener('click', resetGame);
+    
+            // Append the reset button to the defeat screen
+            document.querySelector('.defeat-screen').appendChild(resetButton);
+    
+            
+        }
 
 // Function to check if a move is valid
 function isValidMove(newX, newY) {
@@ -789,12 +517,12 @@ function updateCreaturePosition(newX, newY) {
     }
 }
 
-// 9. Health Displays
+// 9. Health Displays (MVP STRETCH)
 
-let health;
+                // let health;
 
-updateAlexeiHealth(health);
-updateCreatureHealth(health);
+                // updateAlexeiHealth(health);
+                // updateCreatureHealth(health);
 
 
 // Function to update Alexei's health display
@@ -877,54 +605,6 @@ function checkTileAndIncrementTask(x, y) {
                 displayVictoryScreen()
             }
             
-
-        // Function to Detect Defeat Condition
-
-        
-
-        
-        
-            
-        // Function to display defeat screen
-        function displayDefeatScreen() {
-        // Create a div element for the defeat screen
-        const defeatScreen = document.createElement('div');
-        defeatScreen.classList.add('defeat-screen');
-
-        // Create content for the defeat screen
-        const content = document.createElement('div');
-        content.innerHTML = `
-            <p>(Defeat) Undamaged vessel of Zarya Tupolevsky X-1 recovered in Barents Sea. No survivors recovered. Cause unknown. Investigation concluded. 10-10-1982</p>
-        `;
-
-        // Append content to the defeat screen
-        defeatScreen.appendChild(content);
-
-        // Append the defeat screen to the document body
-        document.body.appendChild(defeatScreen);
-
-        // Create a reset button
-        const resetButton = document.createElement('button');
-        resetButton.innerText = 'Reset Game';
-        resetButton.classList.add('resetbtn');
-        resetButton.addEventListener('click', resetGame);
-
-        // Append the reset button to the defeat screen
-        document.querySelector('.defeat-screen').appendChild(resetButton);
-
-        
-    }
-
-
-            
-            // Function to display victory alert
-            function displayVictoryAlert() {
-                alert("VICTORY");
-
-                // You can add additional actions or reset the game after victory
-            }
-
-            
             // Check if the visited tiles are in order
             if (i === currentTaskDisplay) {
                 // Increment the task display
@@ -945,8 +625,6 @@ function checkTileAndIncrementTask(x, y) {
         }
     }
 }
-
-
 
 
 
