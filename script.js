@@ -9,7 +9,7 @@
 //  6. Victory and Defeat Alerts
 //  7. Arrow Event Listeners
 //  8. Creature Random Movement
-//  9. Encounter
+//  9. Health (MVP)
 //  10. Victory + Defeat Condition Checkers
 //  11. Dev Mode Toggle Switch
 
@@ -148,21 +148,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     alexeiCoordinates = spawnAlexei(); // Store the coordinates
     spawnCreature();
+
 });
 
 
 // 2. RESET BUTTON 
 
-// clears board
-// spawns player and monster in random tiles
-// Resets Task Display to first and second tasks
-// Resets the linear task tracker to incomplete.
-// Sets turn to players turn
-// Resets health for both player and monster to 5/5
-// ...
-
 function resetGame() {
-    alert("reset clicked");
     location.reload();
 }
 
@@ -267,7 +259,7 @@ document.querySelector('.test').addEventListener('click', function () {
     alert("Test button clicked!");
 });
 
-// 5. WRITING UPDATING TASK LIST DISPLAY
+// 5. UPDATING TASK LIST DISPLAY
 
 // Task List Array
 let taskList = [
@@ -358,25 +350,25 @@ function detectDefeat() {
 // UP Listener
 document.querySelector('.arrowUp').addEventListener('click', function () {
     moveAlexei(0, -1);
-
+    moveCreatureRandomly();
 });
 
 // LEFT Listener
 document.querySelector('.arrowLeft').addEventListener('click', function () {
     moveAlexei(-1, 0);
-
+    moveCreatureRandomly();
 });
 
 // DOWN Listener
 document.querySelector('.arrowDown').addEventListener('click', function () {
     moveAlexei(0, 1);
-
+    moveCreatureRandomly();
 });
 
 // RIGHT Listener
 document.querySelector('.arrowRight').addEventListener('click', function () {
     moveAlexei(1, 0);
-
+    moveCreatureRandomly();
 
 });
 
@@ -474,6 +466,7 @@ document.querySelector('.testmovecreature').addEventListener('click', function (
 
 // Function to move Creature Randomly
 function moveCreatureRandomly() {
+
     let moveSuccessful = false;
 
     // Continue trying to move until a valid move is made
@@ -502,8 +495,8 @@ function moveCreatureRandomly() {
 
         // Attempt to move the creature in the determined direction
         moveSuccessful = moveCreature(dx, dy);
-
     }
+    
 }
 
 // Function to move the creature based on the given dx and dy
@@ -538,8 +531,9 @@ function displayDefeatScreen() {
     // Create content for the defeat screen
     const content = document.createElement('div');
     content.innerHTML = `
-                <p>(Defeat) Undamaged vessel of Zarya Tupolevsky X-1 recovered in Barents Sea. No survivors recovered. Cause unknown. Investigation concluded. 10-10-1982</p>
-            `;
+                <p>Undamaged vessel of Zarya Tupolevsky X-1 recovered in Barents Sea. No survivors recovered. Cause unknown. Investigation concluded. 10-10-1982</p>
+                <h1 style="font-size: 2em;">DEFEAT</h1>
+                `;
 
     // Append content to the defeat screen
     defeatScreen.appendChild(content);
