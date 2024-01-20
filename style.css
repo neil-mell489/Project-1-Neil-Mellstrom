@@ -5,8 +5,7 @@ body, h1, p, ul {
 }
 
 * {
-    font-family: 'Courier New', Courier, monospace;
-    /* Additional font styles or properties */
+    font-family: 'Courier Prime', monospace;
   }
 
 /* Set a background color and font color for the body */
