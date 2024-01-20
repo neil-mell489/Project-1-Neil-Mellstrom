@@ -8,34 +8,35 @@ document.querySelector('.test').addEventListener('click', function() {
 
 
 // TABLE OF CONTENTS
+
+    //     Preface
     //  1. Game Setup (initial)
     //  2. Reset Button
-    //  3. Task List Array
-    //  4. Not sure where to Put this
+    //  3. Dropdown Buttons
+    //  4. -
     //  5. Updating Task List Display
     //  6. Victory and Defeat Alerts
     //  7. Arrow Event Listeners
     //  8. Creature Random Movement
     //  9. Encounter
-    //  10. Task Tracker, Detection and Updater
+    //  10. Victory + Defeat Condition Checkers
     //  11. Dev Mode Toggle Switch
-    //  12. -
-    //  13. -
-    //  14. - 
-    //  15. - 
-    //  16. - 
-    //  18. - 
+ 
 
 
 // PREFACE
+
     // GLOBAL DEFININTIONS
 
     let x1, y1;
     let x2, y2;
-    let previousX2, previousY2; 
-    // let creatureSpawned = false;
-    // Creature will only spawn initially once, and any attempts to spawn twice return NULL (I hope)
-    
+    let previousX2, previousY2;
+    let alexeiCoordinates; 
+    let [randomX1, randomY1] = generateX1Y1();
+    let [randomX2, randomY2] = generateX1Y1();
+    let randomPlayerPosition = [randomX1, randomY1];
+    let randomMonsterPosition = [randomX2, randomY2];
+        
 
 
 // 1. GAME SETUP (Initial)
@@ -48,6 +49,153 @@ document.querySelector('.test').addEventListener('click', function() {
     // ...
 
 // ----------------------------------------------------------
+
+    // Random Alexei Coordinates for Initial Spawn
+
+    // Generate a random X value and Y value for Player's spawn coordinates
+    function generateX1Y1() {
+        let randomx1;
+        let randomy1;
+
+        const forbiddenCoordinates = [[2, 2], [4, 2], [6, 2]];
+
+        do {
+            // Generate the first random number in the range [1, 7]
+            randomx1 = Math.floor(Math.random() * 7) + 1;
+
+            // Generate the second random number in the range [1, 3]
+            randomy1 = Math.floor(Math.random() * 3) + 1;
+        } while (forbiddenCoordinates.some(coord => coord[0] === randomx1 && coord[1] === randomy1));
+
+        // Return an array with the generated values
+        return [randomx1, randomy1];
+    }
+
+    // Write Spawn Alexei in Tile
+    function spawnAlexei() {
+        // Retrieve and define coordinates using the generateX1Y1 function
+        [x1, y1] = generateX1Y1();
+
+        // Remove existing Alexei from any tile
+        const existingAlexei = document.querySelector('.tileOccupant.alexei');
+        if (existingAlexei) {
+            existingAlexei.textContent = '';
+        }
+
+        // Find the target tile with appropriate x1 and y1
+        const targetTile1 = document.querySelector(`.tile.tile_${x1}_${y1}`);
+
+        if (targetTile1) {
+            // Update the text in the target tile
+            let tileOccupant = targetTile1.querySelector('.tileOccupant');
+            if (tileOccupant) {
+                tileOccupant.textContent = 'Alexei';
+                tileOccupant.classList.add('alexei'); // Add a class to identify Alexei
+            }
+        }
+
+        console.log(`Alexei FIRST spawned at coordinates: (${x1}, ${y1})`);
+
+        let tileOccupant = targetTile1.querySelector('.tileOccupant');
+
+        if (!tileOccupant) {
+            tileOccupant = document.createElement('span');
+            tileOccupant.classList.add('tileOccupant');
+            targetTile1.appendChild(tileOccupant);
+        }
+        tileOccupant.textContent = 'Alexei';
+
+        // Log visibility
+        console.log('Is Alexei visible?', tileOccupant.offsetWidth > 0);
+
+        // Return the coordinates for later use
+        return { x: x1, y: y1 };
+    }
+
+    // WRITE SPAWN CREATURE IN TILE
+    function spawnCreature() {
+        // Retrieve and define coordinates using the generateX1Y1 function
+        [x2, y2] = generateX1Y1();  // Use the global x2 and y2 variables
+
+        // Check if Alexei is present in the target tile
+        const existingAlexei = document.querySelector(`.tile.tile_${x2}_${y2} .tileOccupant.alexei`);
+        if (existingAlexei) {
+            // If Alexei is present, rerun the spawnCreature function
+            return spawnCreature();
+        }
+
+        // Check if Creature is present in the target tile
+        const existingCreature = document.querySelector(`.tile.tile_${x2}_${y2} .tileOccupant.creature`);
+        if (existingCreature) {
+            // If Creature is present, rerun the spawnCreature function
+            return spawnCreature();
+        }
+
+        // Remove existing Creature from any tile
+            const existingCreatureTiles = document.querySelectorAll(`.tileOccupant.creature`);
+            existingCreatureTiles.forEach(tile => {
+                tile.textContent = '';
+            });
+
+        // Find the target tile with appropriate x2 and y2
+        const targetTile2 = document.querySelector(`.tile.tile_${x2}_${y2}`);
+
+        let tileOccupant = targetTile2.querySelector('.tileOccupant');
+        if (!tileOccupant) {
+            tileOccupant = document.createElement('span');
+            tileOccupant.classList.add('tileOccupant');
+            targetTile2.appendChild(tileOccupant);
+        }
+
+        tileOccupant.textContent = 'Creature';
+        tileOccupant.classList.add('creature'); // Add a class to identify the Creature
+
+        // Log visibility
+        console.log('Is Creature visible?', tileOccupant.offsetWidth > 0);
+
+        console.log(`Creature FIRST spawned at coordinates: (${x2}, ${y2})`);
+
+        // Return the coordinates for later use
+        return { x: x2, y: y2 };
+    }
+
+    // Call the spawnAlexei and spawnCreature functions to execute the code
+
+        // let alexeiCoordinates; // Declare a variable to store Alexei's coordinates
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // SPLASH SCREEN WITH LORE and RULES. 
+                // Same text that will go in the dropdown buttons, RULES and CLASSIFIED INFO
+
+            alexeiCoordinates = spawnAlexei(); // Store the coordinates
+            spawnCreature();
+        });
+
+
+
+// 2. RESET BUTTON 
+
+    // clears board
+    // spawns player and monster in random tiles
+    // Resets Task Display to first and second tasks
+    // Resets the linear task tracker to incomplete.
+    // Sets turn to players turn
+    // Resets health for both player and monster to 5/5
+    // ...
+
+
+    function resetGame() {
+    alert("reset clicked")
+
+    updateTaskList(0)
+
+    let x1, y1;
+    let x2, y2;
+    let previousX2, previousY2; 
+    // let creatureSpawned = false;
+    // Creature will only spawn initially once, and any attempts to spawn twice return NULL (I hope)
+    
 
     // Random Alexei Coordinates for Initial Spawn
 
@@ -160,7 +308,7 @@ document.querySelector('.test').addEventListener('click', function() {
 
     // Call the spawnAlexei and spawnCreature functions to execute the code
 
-        let alexeiCoordinates; // Declare a variable to store Alexei's coordinates
+        
 
         document.addEventListener('DOMContentLoaded', function () {
 
@@ -173,18 +321,9 @@ document.querySelector('.test').addEventListener('click', function() {
 
 
 
-// 2. RESET BUTTON 
-
-    // clears board
-    // spawns player and monster in random tiles
-    // Resets Task Display to first and second tasks
-    // Resets the linear task tracker to incomplete.
-    // Sets turn to players turn
-    // Resets health for both player and monster to 5/5
-    // ...
 
 
-    function resetGame() {
+    
 
 
         
@@ -199,17 +338,16 @@ document.querySelector('.test').addEventListener('click', function() {
                 // Select the screen element based on the provided type
                 const screenElement = document.querySelector(`.${screenType}-screen`);
 
+
+
                 // Remove the screen element if it exists
                 if (screenElement) {
                     screenElement.remove();
                 }
 
-   
+                
 }           hideResultScreen('victory');
             hideResultScreen('defeat'); 
-
-        
-            
 
 
             // Loop through all tiles on the board
@@ -284,9 +422,9 @@ document.querySelector('.test').addEventListener('click', function() {
 
         let health = 5
 
-        // Reset Task Display
         
-        resetTaskList()
+        
+        
 
         // Variables to store random positions for the player
                 // (Notice how the two values are defined and stored together in an array for the player and the monster)
@@ -301,6 +439,14 @@ document.querySelector('.test').addEventListener('click', function() {
         function resetGame() {
             alexeiCoordinates = spawnAlexei();
             spawnCreature();
+
+          // Reset Task Display
+          resetTaskList()
+
+        let [randomX1, randomY1] = generateX1Y1();
+        let [randomX2, randomY2] = generateX1Y1();
+        let randomPlayerPosition = [randomX1, randomY1];
+        let randomMonsterPosition = [randomX2, randomY2];
         }
 
 
@@ -331,40 +477,44 @@ document.querySelector('.test').addEventListener('click', function() {
         resetButton.addEventListener('click', function() {
             // Call the resetGame function when the reset button is clicked
             resetGame();
-            alert("reset clicked")
         });
 
-// 3. TASK LIST ARRAY
-    let taskList = [
-        "1 ~ Acquire scientist's notes from Lab.", 
-        "2 ~ Acquire fire extinguisher from Storage.",
-        "3 ~ Acquire Captain's notes in his Quarters.",
-        "4 ~ Restart Engines.",
-        "5 ~ Pilot vessel from Control room to surface",
-        "6 ~ Set Reactor to self destruct.",
-        "7 ~ Escape via Torpedo Bay."
-    ]
+// 3. DROPDOWN BUTTONS
 
-// 4. NOT SURE WHERE TO PUT THIS
-    // Reset Task List (function writing)
+// 4. -
 
-    function resetTaskList() {
-        let nextTask = document.getElementById("task-list-next");
-        nextTask.textContent = "Next Task:\n" + taskList[1];
+ 
 
-        let currentTask = document.getElementById("task-list-current");
-        currentTask.textContent = "Current Task:\n" + taskList[0];
+// 5. WRITING UPDATING TASK LIST DISPLAY
 
-        // let previousTask = document.getElementById("task-list-previous");
-        // previousTask.textContent = "Previous Task:\n" + "";
-        // ^^^^^This is for if you decide to put the previous task back in the game.
-    }
 
-// 5. UPDATING TASK LIST DISPLAY
+// Task List Array
+let taskList = [
+    "1 ~ Acquire scientist's notes from Lab.", 
+    "2 ~ Acquire fire extinguisher from Storage.",
+    "3 ~ Acquire Captain's notes in his Quarters.",
+    "4 ~ Restart Engines.",
+    "5 ~ Pilot vessel from Control room to surface",
+    "6 ~ Set Reactor to self destruct.",
+    "7 ~ Escape via Torpedo Bay."
+]
+
+
+
+function updateTaskList() {
+    let nextTask = document.getElementById("task-list-next");
+    nextTask.textContent = "Next Task:\n" + taskList[1];
+
+    let currentTask = document.getElementById("task-list-current");
+    currentTask.textContent = "Current Task:\n" + taskList[0];
+}
+
 
     // THIS LINE BELOW IS WHAT MAKES THE TASK LIST DISPLAY UPDPATE. CHANGE THE NUMBER, UPDATE TASK LIST DISPLAY. EASY!
     let currentTaskDisplay = 0; // Set the current task display index
                 // ^^^^^^^^^^when currentTaskDisplay equals 0, that's your starting display. 1 is next. then 2,3,4,etc
+
+
 
     function updateTaskList(currentTaskDisplay) {
         // Validate the input index
@@ -383,14 +533,11 @@ document.querySelector('.test').addEventListener('click', function() {
     updateTaskList(currentTaskDisplay)
 
 // 6. VICTORY AND DEFEAT ALERTS
-            // change to a prompt later with Reset Game button and a Dismiss button
 
-    // function displayVictoryScreen() {
-    //     alert("(Victory) Lieutenant Helmsman Alexei Yarovoy recovered from the Barents Sea among wreckage of the Zarya Tupolevsky X-1. No evidence of animal reported by Helmsman.");
-    // }
 
     // Function to display victory screen
-function displayVictoryScreen() {
+    function displayVictoryScreen() {
+
     // Create a div element for the victory screen
     const victoryScreen = document.createElement('div');
     victoryScreen.classList.add('victory-screen');
@@ -420,47 +567,38 @@ function displayVictoryScreen() {
     document.body.appendChild(victoryScreen);
 }
 
-
-    // function displayDefeatScreen() {
-    //     alert("(Defeat) Undamaged vessel of Zarya Tupolevsky X-1 recovered in Barents Sea. No survivors recovered. Cause unknown.");
-    // }
-
-
-
-
-
-
 // 7. ARROW EVENT LISTENERS
 
     // UP Listener
     document.querySelector('.arrowUp').addEventListener('click', function() {
         moveAlexei(0, -1);
-        // changeTurn("Creature")
+        
     });
 
     // LEFT Listener
     document.querySelector('.arrowLeft').addEventListener('click', function() {
         moveAlexei(-1, 0);
-        // changeTurn("Creature")
+        
     });
 
     // DOWN Listener
     document.querySelector('.arrowDown').addEventListener('click', function() {
         moveAlexei(0, 1);
-        // changeTurn("Creature")
+        
     });
 
     // RIGHT Listener
     document.querySelector('.arrowRight').addEventListener('click', function() {
         moveAlexei(1, 0);
         
-        // changeTurn("Creature")
+        
     });
 
 
     // Arrow key press listener
     document.addEventListener('keydown', function (event) {
         moveCreatureRandomly();
+
         // Check if the pressed key is an arrow key
         if (event.key.startsWith('Arrow')) {
             event.preventDefault(); // Prevent the default behavior of arrow keys (scrolling)
@@ -487,6 +625,7 @@ function displayVictoryScreen() {
             // Move Alexei in the determined direction
             moveAlexei(dx, dy);
         }
+
     });
 
 
@@ -536,9 +675,6 @@ function displayVictoryScreen() {
 
             // Check for Task Tile
             checkTileAndIncrementTask(x1, y1)
-
-            // Check for Encoutner with Creature
-            detectEncounter();
         }
     }
 
@@ -711,68 +847,7 @@ function updateCreatureHealth(health) {
     }
 }
 
-
-// 10.  ENCOUNTER
-
-
-
-    // calculate who gets damaged (player has 75% chance to lose health, Creature has 25%)
-    // update health display accordingly
-    // call functions to repawn creature to random position after f
-
-   // Function to detect encounter between Alexei and Creature
-function detectEncounter() {
-    if (x1 === x2 && y1 === y2) {
-        alert("WHERED YA COME FROM");
-        runEncounter();
-    }
-}
-
-// Function to run the encounter and update health
-function runEncounter() {
-    // Set the probabilities for player and creature
-    const playerProbability = 0.75; // 75% chance for the player
-    const creatureProbability = 0.25; // 25% chance for the creature
-
-    // Generate a random number between 0 and 1
-    const randomValue = Math.random();
-
-    // Initialize variables to track whether the player and creature are damaged
-    let playerDamaged = false;
-    let creatureDamaged = false;
-
-    // Check if the encounter results in the player losing health
-    if (randomValue <= playerProbability) {
-        // Player loses 1 health
-        updateAlexeiHealth(-1);
-        playerDamaged = true;
-        console.log("Player lost 1 health");
-    } else {
-        // Creature loses 1 health (since the player didn't get damaged)
-        updateCreatureHealth(-1);
-        creatureDamaged = true;
-        console.log("Creature lost 1 health");
-    }
-}
-
-
-
-
-
-
-
-// 10. Task Tracker, Detection and Updater
-
-// let taskList = [
-//     "1 ~ Acquire scientist's notes from Lab.", 
-//     "2 ~ Acquire fire extinguisher from Storage.",
-//     "3 ~ Acquire Captain's notes in his Quarters.",
-//     "4 ~ Restart Engines.",
-//     "5 ~ Pilot vessel from Control room to surface",
-//     "6 ~ Set Reactor to self destruct.",
-//     "7 ~ Escape via Torpedo Bay."
-// ]
-
+// 10. VICTORY + DEFEAT CONDITION CHECKERS
 
 
 function checkTileAndIncrementTask(x, y) {
@@ -796,17 +871,20 @@ function checkTileAndIncrementTask(x, y) {
         // Check if Alexei is in the specified tile
         if (x === taskCoord.x && y === taskCoord.y) {
 
+
+                // Check is Aelexi has completed all tasks and is in Torpedo Bay
             if(x === 1 && y === 2 && currentTaskDisplay >= 6) {
                 displayVictoryScreen()
             }
             
-            // Function to check for victory condition
-            function checkVictoryCondition(x, y) {
-                // Check if Alexei is in the last tile (x: 1, y: 2) and currentTaskDisplay is equal to 7
-                return x === 1 && y === 2 && currentTaskDisplay === 6;
-            }
 
+        // Function to Detect Defeat Condition
 
+        
+
+        
+        
+            
         // Function to display defeat screen
         function displayDefeatScreen() {
         // Create a div element for the defeat screen
@@ -838,12 +916,6 @@ function checkTileAndIncrementTask(x, y) {
     }
 
 
-            // Function to check for defeat condition
-            function checkDefeatCondition() {
-                if(health = 0) {
-                    displayDefeatScreen();
-                }
-            }
             
             // Function to display victory alert
             function displayVictoryAlert() {
@@ -907,8 +979,6 @@ function updateDevModeIndicator() {
   indicator.textContent = devMode ? 'ON' : 'OFF';
 }
 
-
-// 12. -
 
 
 
