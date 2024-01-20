@@ -166,10 +166,6 @@ body {
  display:flex;
 }
 
-.button {
-    justify-content: space-evenly;
-}
-
 /* Individual button styles */
 .resetbtn {
     background-color: #444;
@@ -332,3 +328,5 @@ body {
     margin-left: 10px;
     color:#00e46b;
   }
+
+  

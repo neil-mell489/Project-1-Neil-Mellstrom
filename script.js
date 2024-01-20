@@ -1,199 +1,277 @@
-// Test Button Listener
-document.querySelector('.test').addEventListener('click', function() {
-    // Call a function or perform any actions when the "Test" button is clicked
-    alert("Test button clicked!");
-    // You can add your test-related code here
-});
-
-
-
 // TABLE OF CONTENTS
 
-    //     Preface
-    //  1. Game Setup (initial)
-    //  2. Reset Button
-    //  3. Dropdown Buttons
-    //  4. -
-    //  5. Updating Task List Display
-    //  6. Victory and Defeat Alerts
-    //  7. Arrow Event Listeners
-    //  8. Creature Random Movement
-    //  9. Encounter
-    //  10. Victory + Defeat Condition Checkers
-    //  11. Dev Mode Toggle Switch
- 
+//     Preface
+//  1. Game Setup (initial)
+//  2. Reset Button
+//  3. Dropdown Buttons
+//  4. Test Button
+//  5. Updating Task List Display
+//  6. Victory and Defeat Alerts
+//  7. Arrow Event Listeners
+//  8. Creature Random Movement
+//  9. Encounter
+//  10. Victory + Defeat Condition Checkers
+//  11. Dev Mode Toggle Switch
+
 
 
 // PREFACE
 
-    // GLOBAL DEFININTIONS
+// GLOBAL DEFININTIONS
 
-    let x1, y1;
-    let x2, y2;
-    let previousX2, previousY2;
-    let alexeiCoordinates; 
-    let [randomX1, randomY1] = generateX1Y1();
-    let [randomX2, randomY2] = generateX1Y1();
-    let randomPlayerPosition = [randomX1, randomY1];
-    let randomMonsterPosition = [randomX2, randomY2];
+let x1, y1;
+let x2, y2;
+let previousX2, previousY2;
+let alexeiCoordinates;
+let [randomX1, randomY1] = generateX1Y1();
+let [randomX2, randomY2] = generateX1Y1();
+let randomPlayerPosition = [randomX1, randomY1];
+let randomMonsterPosition = [randomX2, randomY2];
 
 // 1. GAME SETUP (Initial)
 
 
-    // Random Alexei Coordinates for Initial Spawn
+// Random Alexei Coordinates for Initial Spawn
 
-    // Generate a random X value and Y value for Player's spawn coordinates
-    function generateX1Y1() {
-        let randomx1;
-        let randomy1;
+// Generate a random X value and Y value for Player's spawn coordinates
+function generateX1Y1() {
+    let randomx1;
+    let randomy1;
 
-        const forbiddenCoordinates = [[2, 2], [4, 2], [6, 2]];
+    const forbiddenCoordinates = [[2, 2], [4, 2], [6, 2]];
 
-        do {
-            // Generate the first random number in the range [1, 7]
-            randomx1 = Math.floor(Math.random() * 7) + 1;
+    do {
+        // Generate the first random number in the range [1, 7]
+        randomx1 = Math.floor(Math.random() * 7) + 1;
 
-            // Generate the second random number in the range [1, 3]
-            randomy1 = Math.floor(Math.random() * 3) + 1;
-        } while (forbiddenCoordinates.some(coord => coord[0] === randomx1 && coord[1] === randomy1));
+        // Generate the second random number in the range [1, 3]
+        randomy1 = Math.floor(Math.random() * 3) + 1;
+    } while (forbiddenCoordinates.some(coord => coord[0] === randomx1 && coord[1] === randomy1));
 
-        // Return an array with the generated values
-        return [randomx1, randomy1];
+    // Return an array with the generated values
+    return [randomx1, randomy1];
+}
+
+// Write Spawn Alexei in Tile
+function spawnAlexei() {
+    // Retrieve and define coordinates using the generateX1Y1 function
+    [x1, y1] = generateX1Y1();
+
+    // Remove existing Alexei from any tile
+    const existingAlexei = document.querySelector('.tileOccupant.alexei');
+    if (existingAlexei) {
+        existingAlexei.textContent = '';
     }
 
-    // Write Spawn Alexei in Tile
-    function spawnAlexei() {
-        // Retrieve and define coordinates using the generateX1Y1 function
-        [x1, y1] = generateX1Y1();
+    // Find the target tile with appropriate x1 and y1
+    const targetTile1 = document.querySelector(`.tile.tile_${x1}_${y1}`);
 
-        // Remove existing Alexei from any tile
-        const existingAlexei = document.querySelector('.tileOccupant.alexei');
-        if (existingAlexei) {
-            existingAlexei.textContent = '';
-        }
-
-        // Find the target tile with appropriate x1 and y1
-        const targetTile1 = document.querySelector(`.tile.tile_${x1}_${y1}`);
-
-        if (targetTile1) {
-            // Update the text in the target tile
-            let tileOccupant = targetTile1.querySelector('.tileOccupant');
-            if (tileOccupant) {
-                tileOccupant.textContent = 'Alexei';
-                tileOccupant.classList.add('alexei'); // Add a class to identify Alexei
-            }
-        }
-
-        console.log(`Alexei FIRST spawned at coordinates: (${x1}, ${y1})`);
-
+    if (targetTile1) {
+        // Update the text in the target tile
         let tileOccupant = targetTile1.querySelector('.tileOccupant');
-
-        if (!tileOccupant) {
-            tileOccupant = document.createElement('span');
-            tileOccupant.classList.add('tileOccupant');
-            targetTile1.appendChild(tileOccupant);
+        if (tileOccupant) {
+            tileOccupant.textContent = 'Alexei';
+            tileOccupant.classList.add('alexei'); // Add a class to identify Alexei
         }
-        tileOccupant.textContent = 'Alexei';
-
-        // Log visibility
-        console.log('Is Alexei visible?', tileOccupant.offsetWidth > 0);
-
-        // Return the coordinates for later use
-        return { x: x1, y: y1 };
     }
 
-    // WRITE SPAWN CREATURE IN TILE
-    function spawnCreature() {
-        // Retrieve and define coordinates using the generateX1Y1 function
-        [x2, y2] = generateX1Y1();  // Use the global x2 and y2 variables
+    console.log(`Alexei FIRST spawned at coordinates: (${x1}, ${y1})`);
 
-        // Check if Alexei is present in the target tile
-        const existingAlexei = document.querySelector(`.tile.tile_${x2}_${y2} .tileOccupant.alexei`);
-        if (existingAlexei) {
-            // If Alexei is present, rerun the spawnCreature function
-            return spawnCreature();
-        }
+    let tileOccupant = targetTile1.querySelector('.tileOccupant');
 
-        // Check if Creature is present in the target tile
-        const existingCreature = document.querySelector(`.tile.tile_${x2}_${y2} .tileOccupant.creature`);
-        if (existingCreature) {
-            // If Creature is present, rerun the spawnCreature function
-            return spawnCreature();
-        }
+    if (!tileOccupant) {
+        tileOccupant = document.createElement('span');
+        tileOccupant.classList.add('tileOccupant');
+        targetTile1.appendChild(tileOccupant);
+    }
+    tileOccupant.textContent = 'Alexei';
 
-        // Remove existing Creature from any tile
-            const existingCreatureTiles = document.querySelectorAll(`.tileOccupant.creature`);
-            existingCreatureTiles.forEach(tile => {
-                tile.textContent = '';
-            });
+    // Log visibility
+    console.log('Is Alexei visible?', tileOccupant.offsetWidth > 0);
 
-        // Find the target tile with appropriate x2 and y2
-        const targetTile2 = document.querySelector(`.tile.tile_${x2}_${y2}`);
+    // Return the coordinates for later use
+    return { x: x1, y: y1 };
+}
 
-        let tileOccupant = targetTile2.querySelector('.tileOccupant');
-        if (!tileOccupant) {
-            tileOccupant = document.createElement('span');
-            tileOccupant.classList.add('tileOccupant');
-            targetTile2.appendChild(tileOccupant);
-        }
+// WRITE SPAWN CREATURE IN TILE
+function spawnCreature() {
+    // Retrieve and define coordinates using the generateX1Y1 function
+    [x2, y2] = generateX1Y1();  // Use the global x2 and y2 variables
 
-        tileOccupant.textContent = 'Creature';
-        tileOccupant.classList.add('creature'); // Add a class to identify the Creature
-
-        // Log visibility
-        console.log('Is Creature visible?', tileOccupant.offsetWidth > 0);
-
-        console.log(`Creature FIRST spawned at coordinates: (${x2}, ${y2})`);
-
-        // Return the coordinates for later use
-        return { x: x2, y: y2 };
+    // Check if Alexei is present in the target tile
+    const existingAlexei = document.querySelector(`.tile.tile_${x2}_${y2} .tileOccupant.alexei`);
+    if (existingAlexei) {
+        // If Alexei is present, rerun the spawnCreature function
+        return spawnCreature();
     }
 
-    // Call the spawnAlexei and spawnCreature functions to execute the code
+    // Check if Creature is present in the target tile
+    const existingCreature = document.querySelector(`.tile.tile_${x2}_${y2} .tileOccupant.creature`);
+    if (existingCreature) {
+        // If Creature is present, rerun the spawnCreature function
+        return spawnCreature();
+    }
 
-        // let alexeiCoordinates; // Declare a variable to store Alexei's coordinates
-
-        document.addEventListener('DOMContentLoaded', function () {
-
-            // SPLASH SCREEN WITH LORE and RULES. 
-                // Same text that will go in the dropdown buttons, RULES and CLASSIFIED INFO
-
-            alexeiCoordinates = spawnAlexei(); // Store the coordinates
-            spawnCreature();
+    // Remove existing Creature from any tile
+    const existingCreatureTiles = document.querySelectorAll(`.tileOccupant.creature`);
+    existingCreatureTiles.forEach(tile => {
+        tile.textContent = '';
     });
+
+    // Find the target tile with appropriate x2 and y2
+    const targetTile2 = document.querySelector(`.tile.tile_${x2}_${y2}`);
+
+    let tileOccupant = targetTile2.querySelector('.tileOccupant');
+    if (!tileOccupant) {
+        tileOccupant = document.createElement('span');
+        tileOccupant.classList.add('tileOccupant');
+        targetTile2.appendChild(tileOccupant);
+    }
+
+    tileOccupant.textContent = 'Creature';
+    tileOccupant.classList.add('creature'); // Add a class to identify the Creature
+
+    // Log visibility
+    console.log('Is Creature visible?', tileOccupant.offsetWidth > 0);
+
+    console.log(`Creature FIRST spawned at coordinates: (${x2}, ${y2})`);
+
+    // Return the coordinates for later use
+    return { x: x2, y: y2 };
+}
+
+// Call the spawnAlexei and spawnCreature functions to execute the code
+
+// let alexeiCoordinates; // Declare a variable to store Alexei's coordinates
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    alexeiCoordinates = spawnAlexei(); // Store the coordinates
+    spawnCreature();
+});
 
 
 // 2. RESET BUTTON 
 
-    // clears board
-    // spawns player and monster in random tiles
-    // Resets Task Display to first and second tasks
-    // Resets the linear task tracker to incomplete.
-    // Sets turn to players turn
-    // Resets health for both player and monster to 5/5
-    // ...
+// clears board
+// spawns player and monster in random tiles
+// Resets Task Display to first and second tasks
+// Resets the linear task tracker to incomplete.
+// Sets turn to players turn
+// Resets health for both player and monster to 5/5
+// ...
 
-    function resetGame() {
-    alert("reset clicked")
-    }
+function resetGame() {
+    alert("reset clicked");
+    location.reload();
+}
 
-    // RESET BUTTON LISTENER
-        let resetButton = document.querySelector('.resetbtn');
+// RESET BUTTON LISTENER
+let resetButton = document.querySelector('.resetbtn');
 
-        resetButton.addEventListener('click', function() {
-            // Call the resetGame function when the reset button is clicked
-            resetGame();
-        });
+resetButton.addEventListener('click', function () {
+    // Call the resetGame function when the reset button is clicked
+    resetGame();
+});
 
 // 3. DROPDOWN BUTTONS
 
-// 4. -
+
+// Listeners
+document.addEventListener("DOMContentLoaded", function () {
+    // Get the RULES button and its content
+    const rulesButton = document.querySelector('.dropdown.rightbottombtn .dropbtn');
+    const rulesContent = document.querySelector('.dropdown.rightbottombtn .dropdown-content');
+
+    // Get the CLASSIFIED INFO button and its content
+    const classifiedButton = document.querySelector('.dropdown.leftbottombtn .dropbtn');
+    const classifiedContent = document.querySelector('.dropdown.leftbottombtn .dropdown-content');
+
+    // Add mouseover event listener for the RULES button
+    rulesButton.addEventListener('mouseover', function () {
+        // Show the RULES content popup in the middle of the screen
+        showRulesPopup(rulesContent.innerText);
+    });
+
+    // Add mouseover event listener for the CLASSIFIED INFO button
+    classifiedButton.addEventListener('mouseover', function () {
+        // Show the CLASSIFIED INFO content popup in the middle of the screen
+        showInfoPopup(classifiedContent.innerText);
+    });
+
+    // Add mouseout event listener for the RULES button to hide the content popup
+    rulesButton.addEventListener('mouseout', function () {
+        // Hide the RULES content popup
+        hidePopup();
+    });
+
+    // Add mouseout event listener for the CLASSIFIED INFO button to hide the content popup
+    classifiedButton.addEventListener('mouseout', function () {
+        // Hide the CLASSIFIED INFO content popup
+        hidePopup();
+    });
+});
+
+// Function to show RULES content popup in the middle of the screen
+function showRulesPopup(content) {
+    const popup = createPopup(content);
+    document.body.appendChild(popup);
+    centerPopup(popup);
+}
+
+// Function to show CLASSIFIED INFO content popup in the middle of the screen
+function showInfoPopup(content) {
+    const popup = createPopup(content);
+    document.body.appendChild(popup);
+    centerPopup(popup);
+}
+
+// Function to hide content popup
+function hidePopup() {
+    const popup = document.querySelector('.popup');
+    if (popup) {
+        document.body.removeChild(popup);
+    }
+}
+
+// Function to create a popup with specified content
+function createPopup(content) {
+    const popup = document.createElement('div');
+    popup.className = 'popup';
+    popup.innerText = content;
+    return popup;
+}
+
+// Function to center the popup in the middle of the screen
+function centerPopup(popup) {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+
+    const popupWidth = popup.offsetWidth;
+    const popupHeight = popup.offsetHeight;
+
+    const leftPosition = (screenWidth - popupWidth) / 2;
+    const topPosition = (screenHeight - popupHeight) / 2;
+
+    popup.style.left = leftPosition + 'px';
+    popup.style.top = topPosition + 'px';
+}
+
+
+
+// 4. TEST BUTTON
+
+    // Test Button Listener
+document.querySelector('.test').addEventListener('click', function () {
+    // Call a function or perform any actions when the "Test" button is clicked
+    alert("Test button clicked!");
+});
 
 // 5. WRITING UPDATING TASK LIST DISPLAY
 
 // Task List Array
 let taskList = [
-    "1 ~ Acquire scientist's notes from Lab.", 
+    "1 ~ Acquire scientist's notes from Lab.",
     "2 ~ Acquire fire extinguisher from Storage.",
     "3 ~ Acquire Captain's notes in his Quarters.",
     "4 ~ Restart Engines.",
@@ -210,31 +288,31 @@ function updateTaskList() {
     currentTask.textContent = "Current Task:\n" + taskList[0];
 }
 
-    // THIS LINE BELOW IS WHAT MAKES THE TASK LIST DISPLAY UPDPATE. CHANGE THE NUMBER, UPDATE TASK LIST DISPLAY. EASY!
-    let currentTaskDisplay = 0; // Set the current task display index
-                // ^^^^^^^^^^when currentTaskDisplay equals 0, that's your starting display. 1 is next. then 2,3,4,etc
+// THIS LINE BELOW IS WHAT MAKES THE TASK LIST DISPLAY UPDPATE. CHANGE THE NUMBER, UPDATE TASK LIST DISPLAY. EASY!
+let currentTaskDisplay = 0; // Set the current task display index
+// ^^^^^^^^^^when currentTaskDisplay equals 0, that's your starting display. 1 is next. then 2,3,4,etc
 
-    function updateTaskList(currentTaskDisplay) {
-        // Validate the input index
-        if (currentTaskDisplay >= 0 && currentTaskDisplay < taskList.length) {
-            // Update the task list based on the input index
-            let nextTaskIndex = (currentTaskDisplay + 1) % taskList.length;
-            let currentTaskIndex = currentTaskDisplay % taskList.length;
-    
-            let nextTask = document.getElementById("task-list-next");
-            nextTask.textContent = "Next Task:\n" + taskList[nextTaskIndex];
-    
-            let currentTask = document.getElementById("task-list-current");
-            currentTask.textContent = "Current Task:\n" + taskList[currentTaskIndex];
-        } 
-    }    
-    updateTaskList(currentTaskDisplay)
+function updateTaskList(currentTaskDisplay) {
+    // Validate the input index
+    if (currentTaskDisplay >= 0 && currentTaskDisplay < taskList.length) {
+        // Update the task list based on the input index
+        let nextTaskIndex = (currentTaskDisplay + 1) % taskList.length;
+        let currentTaskIndex = currentTaskDisplay % taskList.length;
+
+        let nextTask = document.getElementById("task-list-next");
+        nextTask.textContent = "Next Task:\n" + taskList[nextTaskIndex];
+
+        let currentTask = document.getElementById("task-list-current");
+        currentTask.textContent = "Current Task:\n" + taskList[currentTaskIndex];
+    }
+}
+updateTaskList(currentTaskDisplay)
 
 // 6. VICTORY AND DEFEAT ALERTS
 
 
-    // Function to display victory screen
-    function displayVictoryScreen() {
+// Function to display victory screen
+function displayVictoryScreen() {
 
     // Create a div element for the victory screen
     const victoryScreen = document.createElement('div');
@@ -265,133 +343,132 @@ function updateTaskList() {
     document.body.appendChild(victoryScreen);
 }
 
-    // Detect and Display Defeat 
+// Detect and Display Defeat 
 
-    function detectDefeat() {
-        if (x1 === x2 && y1 === y2) 
-            displayDefeatScreen()
-    }
+function detectDefeat() {
+    if (x1 === x2 && y1 === y2)
+        displayDefeatScreen()
+}
 
-    
+
 
 
 // 7. ARROW EVENT LISTENERS
 
-    // UP Listener
-    document.querySelector('.arrowUp').addEventListener('click', function() {
-        moveAlexei(0, -1);
-        
-    });
+// UP Listener
+document.querySelector('.arrowUp').addEventListener('click', function () {
+    moveAlexei(0, -1);
 
-    // LEFT Listener
-    document.querySelector('.arrowLeft').addEventListener('click', function() {
-        moveAlexei(-1, 0);
-        
-    });
+});
 
-    // DOWN Listener
-    document.querySelector('.arrowDown').addEventListener('click', function() {
-        moveAlexei(0, 1);
-        
-    });
+// LEFT Listener
+document.querySelector('.arrowLeft').addEventListener('click', function () {
+    moveAlexei(-1, 0);
 
-    // RIGHT Listener
-    document.querySelector('.arrowRight').addEventListener('click', function() {
-        moveAlexei(1, 0);
-        
-        
-    });
+});
 
-    // Arrow key press listener
-    document.addEventListener('keydown', function (event) {
-        moveCreatureRandomly();
+// DOWN Listener
+document.querySelector('.arrowDown').addEventListener('click', function () {
+    moveAlexei(0, 1);
 
-        // Check if the pressed key is an arrow key
-        if (event.key.startsWith('Arrow')) {
-            event.preventDefault(); // Prevent the default behavior of arrow keys (scrolling)
-            
-            // Determine the direction based on the arrow key pressed
-            let dx = 0;
-            let dy = 0;
+});
 
-            switch (event.key) {
-                case 'ArrowUp':
-                    dy = -1;
-                    break;
-                case 'ArrowDown':
-                    dy = 1;
-                    break;
-                case 'ArrowLeft':
-                    dx = -1;
-                    break;
-                case 'ArrowRight':
-                    dx = 1;
-                    break;
-            }
+// RIGHT Listener
+document.querySelector('.arrowRight').addEventListener('click', function () {
+    moveAlexei(1, 0);
 
-            // Move Alexei in the determined direction
-            moveAlexei(dx, dy);
-            
-            // Check for Defeat Condition after each move.
-            detectDefeat();
+
+});
+
+// Arrow key press listener
+document.addEventListener('keydown', function (event) {
+    moveCreatureRandomly();
+
+    // Check if the pressed key is an arrow key
+    if (event.key.startsWith('Arrow')) {
+        event.preventDefault(); // Prevent the default behavior of arrow keys (scrolling)
+
+        // Determine the direction based on the arrow key pressed
+        let dx = 0;
+        let dy = 0;
+
+        switch (event.key) {
+            case 'ArrowUp':
+                dy = -1;
+                break;
+            case 'ArrowDown':
+                dy = 1;
+                break;
+            case 'ArrowLeft':
+                dx = -1;
+                break;
+            case 'ArrowRight':
+                dx = 1;
+                break;
         }
 
-    });
+        // Move Alexei in the determined direction
+        moveAlexei(dx, dy);
 
-    // Function to move Alexei based on the given dx and dy
-    function moveAlexei(dx, dy) {
-        // Retrieve the current coordinates
-        let currentX = x1;
-        let currentY = y1;
-
-        // Calculate the new coordinates
-        let newX = currentX + dx;
-        let newY = currentY + dy;
-
-        // Perform any additional checks or actions based on the new coordinates
-
-        // Update Alexei's position
-        updateAlexeiPosition(newX, newY);
+        // Check for Defeat Condition after each move.
+        detectDefeat();
     }
 
-    // Function to update Alexei's position
-    function updateAlexeiPosition(newX, newY) {
-        // Update the UI to reflect the new position
-        // For example, you can update the CSS class of the corresponding tile
-        const currentTile = document.querySelector(`.tile.tile_${x1}_${y1}`);
-        const newTile = document.querySelector(`.tile.tile_${newX}_${newY}`);
+});
 
-        if (currentTile && newTile) {
-            // Remove Alexei from the current tile
-            currentTile.querySelector('.tileOccupant').textContent = '';
+// Function to move Alexei based on the given dx and dy
+function moveAlexei(dx, dy) {
+    // Retrieve the current coordinates
+    let currentX = x1;
+    let currentY = y1;
 
-            // Update Alexei's position in the new tile
-            let tileOccupant = newTile.querySelector('.tileOccupant');
-            if (!tileOccupant) {
-                tileOccupant = document.createElement('span');
-                tileOccupant.classList.add('tileOccupant');
-                newTile.appendChild(tileOccupant);
-            }
-            tileOccupant.textContent = 'Alexei';
+    // Calculate the new coordinates
+    let newX = currentX + dx;
+    let newY = currentY + dy;
 
-            // Update the global coordinates
-            x1 = newX;
-            y1 = newY;
+    // Perform any additional checks or actions based on the new coordinates
 
-            // Log the updated coordinates
-            console.log(`Alexei moved to coordinates: (${x1}, ${y1})`);
+    // Update Alexei's position
+    updateAlexeiPosition(newX, newY);
+}
 
-            // Check for Task Tile
-            checkTileAndIncrementTask(x1, y1)
+// Function to update Alexei's position
+function updateAlexeiPosition(newX, newY) {
+    // Update the UI to reflect the new position
+    const currentTile = document.querySelector(`.tile.tile_${x1}_${y1}`);
+    const newTile = document.querySelector(`.tile.tile_${newX}_${newY}`);
+
+    if (currentTile && newTile) {
+        // Remove Alexei from the current tile
+        currentTile.querySelector('.tileOccupant').textContent = '';
+
+        // Update Alexei's position in the new tile
+        let tileOccupant = newTile.querySelector('.tileOccupant');
+        if (!tileOccupant) {
+            tileOccupant = document.createElement('span');
+            tileOccupant.classList.add('tileOccupant');
+            newTile.appendChild(tileOccupant);
         }
+        tileOccupant.textContent = 'Alexei';
+
+        // Update the global coordinates
+        x1 = newX;
+        y1 = newY;
+
+        // Log the updated coordinates
+        console.log(`Alexei moved to coordinates: (${x1}, ${y1})`);
+
+        // Check for Task Tile
+        checkTileAndIncrementTask(x1, y1)
     }
+}
 
 
 
 // 8. CREATURE RANDOM MOVEMENT
 
 // TEST BUTTON FOR CREATURE MOVEMENT IF THE CLASS NAME DIDN'T GIVE IT AWAY
-document.querySelector('.testmovecreature').addEventListener('click', function() {
+document.querySelector('.testmovecreature').addEventListener('click', function () {
     moveCreatureRandomly();
 });
 
@@ -425,7 +502,7 @@ function moveCreatureRandomly() {
 
         // Attempt to move the creature in the determined direction
         moveSuccessful = moveCreature(dx, dy);
-        
+
     }
 }
 
@@ -452,35 +529,33 @@ function moveCreature(dx, dy) {
     }
 }
 
-        // Function to display defeat screen
-        function displayDefeatScreen() {
-            // Create a div element for the defeat screen
-            const defeatScreen = document.createElement('div');
-            defeatScreen.classList.add('defeat-screen');
-    
-            // Create content for the defeat screen
-            const content = document.createElement('div');
-            content.innerHTML = `
+// Function to display defeat screen
+function displayDefeatScreen() {
+    // Create a div element for the defeat screen
+    const defeatScreen = document.createElement('div');
+    defeatScreen.classList.add('defeat-screen');
+
+    // Create content for the defeat screen
+    const content = document.createElement('div');
+    content.innerHTML = `
                 <p>(Defeat) Undamaged vessel of Zarya Tupolevsky X-1 recovered in Barents Sea. No survivors recovered. Cause unknown. Investigation concluded. 10-10-1982</p>
             `;
-    
-            // Append content to the defeat screen
-            defeatScreen.appendChild(content);
-    
-            // Append the defeat screen to the document body
-            document.body.appendChild(defeatScreen);
-    
-            // Create a reset button
-            const resetButton = document.createElement('button');
-            resetButton.innerText = 'Reset Game';
-            resetButton.classList.add('resetbtn');
-            resetButton.addEventListener('click', resetGame);
-    
-            // Append the reset button to the defeat screen
-            document.querySelector('.defeat-screen').appendChild(resetButton);
-    
-            
-        }
+
+    // Append content to the defeat screen
+    defeatScreen.appendChild(content);
+
+    // Append the defeat screen to the document body
+    document.body.appendChild(defeatScreen);
+
+    // Create a reset button
+    const resetButton = document.createElement('button');
+    resetButton.innerText = 'Reset Game';
+    resetButton.classList.add('resetbtn');
+    resetButton.addEventListener('click', resetGame);
+
+    // Append the reset button to the defeat screen
+    document.querySelector('.defeat-screen').appendChild(resetButton);
+}
 
 // Function to check if a move is valid
 function isValidMove(newX, newY) {
@@ -517,63 +592,9 @@ function updateCreaturePosition(newX, newY) {
     }
 }
 
-// 9. Health Displays (MVP STRETCH)
-
-                // let health;
-
-                // updateAlexeiHealth(health);
-                // updateCreatureHealth(health);
+// 9. Health Displays (MVP)
 
 
-// Function to update Alexei's health display
-function updateAlexeiHealth(health) {
-    // Assuming there is an HTML element with the class "player-health-box" for Alexei's health display
-    const healthBox = document.querySelector(".player-health-box");
-
-    // Clear previous content
-    healthBox.innerHTML = '';
-
-    // Add health squares dynamically
-    for (let i = 0; i < health; i++) {
-        const square = document.createElement('div');
-        square.classList.add('health-square', 'solid-square'); // Add 'solid-square' class for solid squares
-        square.id = `player-health-square-${i + 1}`;
-        healthBox.appendChild(square);
-    }
-
-    // Add empty squares for remaining health
-    for (let i = health; i < 5; i++) {
-        const square = document.createElement('div');
-        square.classList.add('health-square', 'empty', 'hollow-square'); // Add 'hollow-square' class for empty squares
-        square.id = `player-health-square-${i + 1}`;
-        healthBox.appendChild(square);
-    }
-}
-
-// Function to update Creature's health display
-function updateCreatureHealth(health) {
-    // Assuming there is an HTML element with the class "creature-health-box" for Creature's health display
-    const healthBox = document.querySelector(".creature-health-box");
-
-    // Clear previous content
-    healthBox.innerHTML = '';
-
-    // Add health squares dynamically
-    for (let i = 0; i < health; i++) {
-        const square = document.createElement('div');
-        square.classList.add('health-square', 'solid-square'); // Add 'solid-square' class for solid squares
-        square.id = `creature-health-square-${i + 1}`;
-        healthBox.appendChild(square);
-    }
-
-    // Add empty squares for remaining health
-    for (let i = health; i < 5; i++) {
-        const square = document.createElement('div');
-        square.classList.add('health-square', 'empty', 'hollow-square'); // Add 'hollow-square' class for empty squares
-        square.id = `creature-health-square-${i + 1}`;
-        healthBox.appendChild(square);
-    }
-}
 
 // 10. VICTORY + DEFEAT CONDITION CHECKERS
 
@@ -581,14 +602,14 @@ function updateCreatureHealth(health) {
 function checkTileAndIncrementTask(x, y) {
     // Define the coordinates for each task
     const taskCoordinates = [
-        { x: 3, y: 1},
-        { x: 1, y: 3},
-        { x: 1, y: 1},
-        { x: 7, y: 2},
-        { x: 3, y: 2},
-        { x: 5, y: 2},
-        { x: 1, y: 2},
-        { x: 0, y: 0}
+        { x: 3, y: 1 },
+        { x: 1, y: 3 },
+        { x: 1, y: 1 },
+        { x: 7, y: 2 },
+        { x: 3, y: 2 },
+        { x: 5, y: 2 },
+        { x: 1, y: 2 },
+        { x: 0, y: 0 }
         // Add coordinates for the rest of the tasks
     ];
 
@@ -600,11 +621,11 @@ function checkTileAndIncrementTask(x, y) {
         if (x === taskCoord.x && y === taskCoord.y) {
 
 
-                // Check is Aelexi has completed all tasks and is in Torpedo Bay
-            if(x === 1 && y === 2 && currentTaskDisplay >= 6) {
+            // Check is Aelexi has completed all tasks and is in Torpedo Bay
+            if (x === 1 && y === 2 && currentTaskDisplay >= 6) {
                 displayVictoryScreen()
             }
-            
+
             // Check if the visited tiles are in order
             if (i === currentTaskDisplay) {
                 // Increment the task display
@@ -619,8 +640,8 @@ function checkTileAndIncrementTask(x, y) {
                 // Break the loop after finding the correct tile
                 break;
 
-            
-            
+
+
             }
         }
     }
@@ -633,28 +654,28 @@ function checkTileAndIncrementTask(x, y) {
 let devMode = false;
 
 function toggleDevMode() {
-  devMode = !devMode;
-  updateToggleHandle();
-  updateButtonVisibility();
-  updateDevModeIndicator();
+    devMode = !devMode;
+    updateToggleHandle();
+    updateButtonVisibility();
+    updateDevModeIndicator();
 }
 
 function updateToggleHandle() {
-  const toggleHandle = document.querySelector('.toggleHandle');
-  toggleHandle.classList.toggle('on', devMode);
+    const toggleHandle = document.querySelector('.toggleHandle');
+    toggleHandle.classList.toggle('on', devMode);
 }
 
 function updateButtonVisibility() {
-  const moveCreatureBtn = document.querySelector('.testmovecreature');
-  const testBtn = document.querySelector('.test');
+    const moveCreatureBtn = document.querySelector('.testmovecreature');
+    const testBtn = document.querySelector('.test');
 
-  moveCreatureBtn.style.display = devMode ? 'inline-block' : 'none';
-  testBtn.style.display = devMode ? 'inline-block' : 'none';
+    moveCreatureBtn.style.display = devMode ? 'inline-block' : 'none';
+    testBtn.style.display = devMode ? 'inline-block' : 'none';
 }
 
 function updateDevModeIndicator() {
-  const indicator = document.getElementById('devModeIndicator');
-  indicator.textContent = devMode ? 'ON' : 'OFF';
+    const indicator = document.getElementById('devModeIndicator');
+    indicator.textContent = devMode ? 'ON' : 'OFF';
 }
 
 
